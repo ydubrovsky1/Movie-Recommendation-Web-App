@@ -34,6 +34,9 @@ public class Genre {
         this.genreName = genreIdName.get(id);
     }
 
+    public Genre() {
+    }
+
     public int getId() {
         return id;
     }
