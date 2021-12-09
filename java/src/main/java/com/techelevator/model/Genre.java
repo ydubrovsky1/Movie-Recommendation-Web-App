@@ -1,9 +1,12 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 
 public class Genre {
     private int id;
+    @JsonProperty("genreName")
     private String genreName;
     public static final HashMap<Integer, String> genreIdName = new HashMap<>();
 
