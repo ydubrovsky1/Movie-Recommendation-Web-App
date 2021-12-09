@@ -36,8 +36,10 @@ export default {
   data(){},
   methods: {
     addGenre(genreId){
-      movieService.addGenre(genreId, this.$store.state.user)
+      movieService.addGenre(genreId, this.$store.state.user) //this calls movie service in the back-end
       //response
+      .then(response => {this.$store.commit("SET_GENRES", response.data.genreId)});
+ 
     }
 
   }
