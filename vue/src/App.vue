@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link class="topbanner" v-bind:to="{ name: 'home' }"
         >Home</router-link
       >&nbsp;|&nbsp;
@@ -10,6 +10,7 @@
         >Logout</router-link
       >
     </div>
+    -->
     <router-view />
   </div>
 </template>
