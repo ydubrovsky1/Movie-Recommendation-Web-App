@@ -2,6 +2,7 @@
   <body>
     <main>
       <div id="login" class="text-center">
+        <!--
         <form class="form-signin" @submit.prevent="login">
           <h1 class="h3 mb-3 font-weight-normal">Welcome to Baker Movies</h1>
           <h2>Please Sign In</h2>
@@ -51,6 +52,7 @@
             >
           </div>
         </form>
+        -->
       </div>
     </main>
     <footer></footer>

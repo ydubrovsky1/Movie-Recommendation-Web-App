@@ -16,10 +16,10 @@ public class MovieController {
     private GenreDao genreDao;
 
     @RequestMapping(path = "/genre", method = RequestMethod.POST)
-    public List<Genre> updateGenres(@RequestBody User user, List<Genre> inputGenres) {
+    public List<Genre> updateGenres(@RequestBody User user, ArrayList<Genre> inputGenres) {
 
 
-        return genreDao.save(user.getId(), inputGenres);
+        return genreDao.save((user.getId()), inputGenres);
 
     }
 
