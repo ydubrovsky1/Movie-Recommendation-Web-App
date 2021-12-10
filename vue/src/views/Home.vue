@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <h1>Choose A Genre:</h1>
-    <form v-on:submit.prevent="addGenre(genreId)">
-      <select id="genres"  multiple>
-            <option value="28">Action</option>
+    <form v-on:submit.prevent="addGenre">
+      <select id="genres" v-model="genres" multiple>
+            <option value="28" >Action</option>
             <option value="12">Adventure</option>
             <option value="16">Animation</option>
             <option value="35">Comedy</option>
@@ -27,16 +27,22 @@
         
     </form>
     
-      <button type="submit">Show Genres</button>
 
-   <tbody>
-      <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
-        <td>{{ genre.id }}</td>
-        <td>{{ genre.genreName }}</td>
-        <td>please show up</td>
+
+   <!-- <tbody>
+      <tr v-for="genre in this.genres" v-bind:key="genre.id">
+        <td>{{ genre}}</td>
       </tr>
-      <tr>also please show up</tr>
+    </tbody> -->
+
+
+    <tbody>
+     <!--$store.state.genres-->
+      <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
+        <td>{{genre.genreName}}</td>
+      </tr>
     </tbody>
+
 
     
   </div>
@@ -52,16 +58,20 @@ Vue.use(VueSimpleAlert);
 export default {
   name: "home",
   components: {},
-  /*data(){
-    return null;
-  },*/
+  data(){
+    return{
+    genre: '',
+    genres: []
+    }
+  },
   methods: {
-    addGenre(genreId){
-      
-      movieService.addGenre(genreId, this.$store.state.user) //this calls movie service in the back-end
+    addGenre(){
+      let myCustomUser = {"user": this.$store.state.user, "genres": this.genres};
+      movieService.addGenre(myCustomUser) //this calls movie service in the back-end
       //response
-      .then(response => {this.$store.commit("SET_GENRES", response.data)}); //
-       this.$alert("Hello Vue Simple Alert.");
+      .then(response => {this.$store.commit("SET_GENRES", response.data)}); 
+      this.$alert("Genres Updated!");
+      
     },
     
 
