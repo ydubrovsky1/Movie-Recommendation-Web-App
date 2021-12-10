@@ -73,6 +73,7 @@ export default {
       this.$alert("Genres Updated!");
       
     },
+    
 
 
   },
