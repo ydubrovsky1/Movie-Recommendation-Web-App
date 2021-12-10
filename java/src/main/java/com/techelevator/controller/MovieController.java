@@ -17,34 +17,18 @@ import java.util.List;
 @RestController
 public class MovieController {
     private GenreDao genreDao;
+    //private MovieDao movieDao;
 
     public MovieController(){
         this.genreDao = new JdbcGenreDao();
 
     }
 
-
-
-
     @RequestMapping(path = "/genre", method = RequestMethod.POST)
     public List<Genre> updateGenres(@RequestBody User user) {
-
         return genreDao.save(user.getId(), user.getPreferredGenres());
     }
 
-    @RequestMapping(path = "/singlegenre", method = RequestMethod.POST)
-    public Genre getSingleGenre(@RequestBody User user, Genre genre) {
-        Genre dummyGenre = new Genre();
-        dummyGenre.setGenreName("Action");
-        //return genreDao.save(user.getId(), inputGenres);
-        return dummyGenre;
-    }
-
-
-
-
-
-
-
+    @RequestMapping(path = "/")
 
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <h1>Choose A Genre:</h1>
-    <!-- <form>
-      <select id="genres" @submit.prevent="addGenre">
+    <form >
+      <select id="genres" v-on:submit.prevent="addGenre" multiple>
             <option value="28">Action</option>
             <option value="12">Adventure</option>
             <option value="16">Animation</option>
@@ -22,39 +22,52 @@
             <option value="53">Thriller</option>
             <option value="10752">War</option>
             <option value="37">Western</option>
-          <button type="submit">Update Generes</button>
         </select>
+        <button type="submit">Update Genres</button>
+        
     </form>
-    -->
-    <p>You must be authenticated to see this</p>
+    
+      <button type="submit">Show Genres</button>
+
+   <tbody>
+      <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
+        <td>{{ genre.id }}</td>
+        <td>{{ genre.genreName }}</td>
+        <td>please show up</td>
+      </tr>
+      <tr>also please show up</tr>
+    </tbody>
+
+    
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import movieService from "../services/MovieService";
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
+
+
 export default {
   name: "home",
   components: {},
-<<<<<<< HEAD
-  data() {},
-  /* methods: {
-    addGenre(genreId) {
-      movieService.addGenre(genreId, this.$store.state.user);
-      //response
-    },
-  },
-  */
-=======
-  data(){},
+  /*data(){
+    return null;
+  },*/
   methods: {
     addGenre(genreId){
+      this.$alert("Hello Vue Simple Alert.");
       movieService.addGenre(genreId, this.$store.state.user) //this calls movie service in the back-end
       //response
-      .then(response => {this.$store.commit("SET_GENRES", response.data.genreId)});
- 
-    }
+      .then(response => {this.$store.commit("SET_GENRES", response.data)}); //
+      
+    },
 
-  }
->>>>>>> 8c527e90089563ed73b5793ea558d313b7a96662
+
+  },
+
+  
 };
 </script>
 
