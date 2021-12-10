@@ -1,6 +1,8 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.GenreDao;
+import com.techelevator.dao.JdbcGenreDao;
+import com.techelevator.dao.JdbcMovieDao;
 import com.techelevator.model.Genre;
 import com.techelevator.model.User;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,13 @@ import java.util.List;
 @RestController
 public class MovieController {
     private GenreDao genreDao;
+
+    public MovieController(){
+        this.genreDao = new JdbcGenreDao();
+
+    }
+
+
 
 
     @RequestMapping(path = "/genre", method = RequestMethod.POST)
