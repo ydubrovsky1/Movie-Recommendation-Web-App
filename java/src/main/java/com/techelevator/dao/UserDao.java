@@ -4,7 +4,7 @@ import com.techelevator.model.User;
 
 import java.util.List;
 
-public interface xUserDao {
+public interface UserDao {
 
     List<User> findAll();
 
