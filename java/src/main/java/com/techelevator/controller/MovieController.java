@@ -5,16 +5,17 @@ import com.techelevator.dao.JdbcGenreDao;
 import com.techelevator.dao.JdbcMovieDao;
 import com.techelevator.model.Genre;
 import com.techelevator.model.User;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+//Access-Control-Allow-Origin: *
+
 @RestController
+@CrossOrigin
 public class MovieController {
     private GenreDao genreDao;
     //private MovieDao movieDao;
@@ -25,10 +26,9 @@ public class MovieController {
     }
 
     @RequestMapping(path = "/genre", method = RequestMethod.POST)
-    public List<Genre> updateGenres(@RequestBody User user) {
+    public List<Genre> updateGenres(@RequestBody @Valid User user) {
         return genreDao.save(user.getId(), user.getPreferredGenres());
     }
 
-    @RequestMapping(path = "/")
 
 }
