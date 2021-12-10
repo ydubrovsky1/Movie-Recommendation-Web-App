@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <h1>Choose A Genre:</h1>
-    <form >
-      <select id="genres" v-on:submit.prevent="addGenre" multiple>
+    <form v-on:submit.prevent="addGenre(genreId)">
+      <select id="genres"  multiple>
             <option value="28">Action</option>
             <option value="12">Adventure</option>
             <option value="16">Animation</option>
@@ -52,30 +52,23 @@ Vue.use(VueSimpleAlert);
 export default {
   name: "home",
   components: {},
-<<<<<<< HEAD
-  data(){},
-=======
   /*data(){
     return null;
   },*/
->>>>>>> 3001b18908685c31a1b307e7c1503d81534f3aab
   methods: {
     addGenre(genreId){
-      this.$alert("Hello Vue Simple Alert.");
+      
       movieService.addGenre(genreId, this.$store.state.user) //this calls movie service in the back-end
       //response
       .then(response => {this.$store.commit("SET_GENRES", response.data)}); //
-      
+       this.$alert("Hello Vue Simple Alert.");
     },
+    
 
 
   },
 
-<<<<<<< HEAD
-  }
-=======
   
->>>>>>> 3001b18908685c31a1b307e7c1503d81534f3aab
 };
 </script>
 
