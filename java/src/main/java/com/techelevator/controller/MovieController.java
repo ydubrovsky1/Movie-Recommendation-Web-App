@@ -29,6 +29,10 @@ public class MovieController {
         return genreDao.save(user.getId(), user.getPreferredGenres());
     }
 
+<<<<<<< HEAD
    // @RequestMapping(path = "/")
+=======
+//    @RequestMapping(path = "/")
+>>>>>>> 613fbf66007bfb37bf9358de5e38c417096f673f
 
 }
