@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Choose A Genre:</h1>
-    <form>
+    <!-- <form>
       <select id="genres" @submit.prevent="addGenre">
             <option value="28">Action</option>
             <option value="12">Adventure</option>
@@ -25,6 +25,7 @@
           <button type="submit">Update Generes</button>
         </select>
     </form>
+    -->
     <p>You must be authenticated to see this</p>
   </div>
 </template>
@@ -33,14 +34,27 @@
 export default {
   name: "home",
   components: {},
+<<<<<<< HEAD
+  data() {},
+  /* methods: {
+    addGenre(genreId) {
+      movieService.addGenre(genreId, this.$store.state.user);
+      //response
+    },
+  },
+  */
+=======
   data(){},
   methods: {
     addGenre(genreId){
-      movieService.addGenre(genreId, this.$store.state.user)
+      movieService.addGenre(genreId, this.$store.state.user) //this calls movie service in the back-end
       //response
+      .then(response => {this.$store.commit("SET_GENRES", response.data.genreId)});
+ 
     }
 
   }
+>>>>>>> 8c527e90089563ed73b5793ea558d313b7a96662
 };
 </script>
 

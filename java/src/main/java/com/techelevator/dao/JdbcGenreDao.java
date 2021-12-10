@@ -15,12 +15,16 @@ public class JdbcGenreDao implements GenreDao {
     @Override
     public List<Genre> save(int userId, List<Genre> genres) {
         List<Genre> myGenres = new ArrayList<>();
-        String sql = "INSERT INTO user_to_genres (user_id, genre_id) VALUES (?, ?)";
-        for(Genre genre : genres){
-            jdbcTemplate.update(sql, userId, genre.getId());
-        }
+        myGenres.add( new Genre(28, "Action"));
+        myGenres.add( new Genre(12, "Adventure"));
+        myGenres.add( new Genre(16, "Animation"));
+//        String sql = "INSERT INTO user_to_genres (user_id, genre_id) VALUES (?, ?)";
+//        for(Genre genre : genres){
+//            jdbcTemplate.update(sql, userId, genre.getId());
+//        }
 
-        return getGenresByUser(userId);
+        //return getGenresByUser(userId);
+        return myGenres;
     }
 
     @Override

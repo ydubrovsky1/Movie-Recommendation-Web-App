@@ -4,7 +4,7 @@
       <div id="login" class="text-center">
         <!--
         <form class="form-signin" @submit.prevent="login">
-          <h1 class="h3 mb-3 font-weight-normal">Welcome to Baker Movies</h1>
+          <h1 class="h3 mb-3 font-weight-normal">Welcome to Movie Baker</h1>
           <h2>Please Sign In</h2>
 
           <div
@@ -101,20 +101,24 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  background: url(../img/old stage cropped.jpg) center / cover no-repeat;
+  min-height: 100%;
+  min-width: 1024px;
+
+  background: url(../img/movie mar 2.png) center / cover no-repeat;
 }
 
 h1 {
   font-family: fantasy;
   color: white;
   text-align: center;
+  text-shadow: 10px 10px 10px orange;
 }
 
 h2 {
   font-family: fantasy;
   color: white;
   text-align: center;
+  text-shadow: 10px 10px 10px blue;
 }
 
 #login {
@@ -140,14 +144,28 @@ h2 {
   justify-content: center;
   display: flex;
   flex-direction: column;
+  text-shadow: 10px 10px 10px green;
 }
 
 .sign-in-button {
   height: 100%;
-  width: 50%;
+  width: 30%;
   font-size: 100%;
+  border-radius: 10px;
   font-family: fantasy;
-  background: rgb(201, 172, 7);
-  color: black;
+  background: orange;
+  color: green;
+}
+#nav {
+  display: none;
+}
+a:visited {
+  color: white;
+}
+a:active {
+  color: orange;
+}
+.form-control {
+  font-size: 75%;
 }
 </style>
