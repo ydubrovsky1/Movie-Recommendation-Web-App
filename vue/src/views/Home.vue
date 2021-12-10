@@ -34,16 +34,6 @@
 export default {
   name: "home",
   components: {},
-<<<<<<< HEAD
-  data() {},
-  /* methods: {
-    addGenre(genreId) {
-      movieService.addGenre(genreId, this.$store.state.user);
-      //response
-    },
-  },
-  */
-=======
   data(){},
   methods: {
     addGenre(genreId){
@@ -54,7 +44,6 @@ export default {
     }
 
   }
->>>>>>> 8c527e90089563ed73b5793ea558d313b7a96662
 };
 </script>
 
