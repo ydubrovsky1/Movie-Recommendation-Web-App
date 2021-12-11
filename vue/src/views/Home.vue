@@ -75,7 +75,9 @@ Vue.use(VueSimpleAlert);
 import Header from "./Header.vue";
 export default {
   name: "home",
-  components: {},
+  components: {
+    Header,
+  },
   data() {
     return {
       genre: "",
