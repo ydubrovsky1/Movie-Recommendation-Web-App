@@ -43,6 +43,28 @@
       </tr>
     </tbody>
 
+     <form v-on:submit.prevent="loadMoviesByGenre()">
+     <button type="submit">See Movies By Genre</button>
+     </form>
+
+     <form v-on:submit.prevent="loadMovieRecs()">
+     <button type="submit">See Movie Recs Based on Favorite Movie</button>
+     </form>
+
+    <tbody>
+      <tr v-for="movie in movies" v-bind:key="movie.id">
+        <td>my movie:</td>
+        <td>{{movie.id}}</td>
+        <td>{{movie.original_title}}</td>
+          <td>{{movie.genre_ids}}</td>
+        <td>{{movie.overview}}</td>
+        <td>{{movie.release_date}}</td>
+        <td>{{movie.poster_path}}</td>
+        <!--to see the photo att to img path: https://www.themoviedb.org/t/p/w600_and_h900_bestv2/-->
+
+      </tr>
+      </tbody>
+
 
     
   </div>
@@ -52,6 +74,7 @@
 import Vue from "vue";
 import movieService from "../services/MovieService";
 import VueSimpleAlert from "vue-simple-alert";
+import apiMovieService from "../services/APIMovieService";
 Vue.use(VueSimpleAlert);
 
 
@@ -61,7 +84,8 @@ export default {
   data(){
     return{
     genre: '',
-    genres: []
+    genres: [],
+    movies: [],
     }
   },
   methods: {
@@ -73,8 +97,30 @@ export default {
       this.$alert("Genres Updated!");
       
     },
-    
+    loadMoviesByGenre(){
+        if(this.$store.state.genres.length > 0){
+          let myGenreUrl = "";
+          for(let i=0; i < this.$store.state.genres.length; i++){
+            myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + '%2C';
+          }
+          apiMovieService.getMoviesByGenre(myGenreUrl).then((response) =>{
+          this.movies = response.data.results;
+          this.$alert("Genres Updated!");
+                  });
+        }
+        else{
 
+          apiMovieService.getMoviesByGenre("28").then((response) =>{
+          this.movies = response.data.results;
+            });
+        }
+      
+    },
+    loadMovieRecs(){
+      apiMovieService.getMovieRecs("585245").then((response)=>{
+        this.movies = response.data.results;
+      });
+    }
 
   },
 
