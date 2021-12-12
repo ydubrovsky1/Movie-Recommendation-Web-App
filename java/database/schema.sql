@@ -31,11 +31,11 @@ CREATE TABLE movies (
         overview varchar(1000) NOT NULL,
         runtime int NOT NULL,
         director varchar(100),
-        actors varchar(10000),
+        actors varchar(100) array[5],
         release_date date NOT NULL,
         rating numeric,
         certification varchar(10),
-        genres int[] NOT NULL,--fk
+        genres int array[20] NOT NULL,--fk
         constraint pk_movies primary key(movie_id)
 );
 
@@ -88,7 +88,7 @@ INSERT INTO genres (genre_id, genre_name) VALUES ('37','Western');
 
 INSERT INTO movies (movie_id, title, overview, runtime, director, actors, release_date, rating, certification, genres) 
 VALUES (580489, 'Venom: Let There Be Carnage', 'After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face a new enemy, Carnage, the alter ego of serial killer Cletus Kasady.', 
-        97, '', '', '2021-09-30', 7.2, 'PG-13', '{878,20,12}');
+        97, 'Andy Serkis', '{"Tom Hardy", "Woody Harrelson", "Michelle Williams", "Naomie Harris", "Reid Scott"}', '2021-09-30', 7.2, 'PG-13', '{878,28,12}');
 
         
 INSERT INTO favorites (user_id, movie_id)
