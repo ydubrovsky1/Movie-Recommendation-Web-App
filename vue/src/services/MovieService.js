@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export default {
 
-    addGenre(genreId, user){
-        return axios.post('/genre', genreId, user)
+    addGenre(customUser){
+        return axios.post('/genre', customUser)
     }
   
 
