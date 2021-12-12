@@ -22,6 +22,7 @@ public class Movie {
     @NotEmpty
     private String releaseDate;
     private double rating;
+    private String certification;
 
     public List<String> getActors() {
         return actors;
@@ -93,5 +94,13 @@ public class Movie {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public String getCertification() {
+        return certification;
+    }
+
+    public void setCertification(String certification) {
+        this.certification = certification;
     }
 }

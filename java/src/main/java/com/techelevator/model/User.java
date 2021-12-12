@@ -17,6 +17,7 @@ public class User {
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
    private List<Genre> preferredGenres;
+   private int favoriteMovieId;
 
    public List<Genre> getPreferredGenres() {
       return preferredGenres;
@@ -35,6 +36,14 @@ public class User {
       this.username = username;
       this.password = password;
       this.activated = true;
+   }
+
+   public int getFavoriteMovieId() {
+      return favoriteMovieId;
+   }
+
+   public void setFavoriteMovieId(int favoriteMovieId) {
+      this.favoriteMovieId = favoriteMovieId;
    }
 
    public int getId() {
