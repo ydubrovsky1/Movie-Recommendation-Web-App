@@ -28,11 +28,31 @@
       <button id="update-genre-button" type="submit">Update Genres</button>
     </form>
 
-    <!-- <tbody>
-      <tr v-for="genre in this.genres" v-bind:key="genre.id">
-        <td>{{ genre}}</td>
-      </tr>
-    </tbody> -->
+
+
+
+        <!--show one movie at a time in table-->
+    <tbody v-if="this.movies.length > 0">
+        <tr>
+        <td>{{ currentMovie.original_title }}</td>
+        </tr>
+        <tr>
+        <td>{{ currentMovie.genre_ids }}</td>
+        </tr>
+        <tr>
+        <td>{{ currentMovie.overview }}</td>
+        </tr>
+        <tr>
+        <td>{{ currentMovie.release_date }}</td>
+        </tr>
+        <tr>
+        <td><img :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` + currentMovie.poster_path" alt="Girl in a jacket" width="500" height="600"></td>
+        </tr>
+    </tbody>
+    <button v-on:click="updateCurrentMovie()">Get Next Movie</button>
+
+
+    <button v-on:click="addToFavorites()">Get Next Movie</button>
 
     <tbody>
       <!--$store.state.genres-->
@@ -42,13 +62,14 @@
     </tbody>
 
     <form v-on:submit.prevent="loadMoviesByGenre()">
-      <button type="submit">See Movies By Genre</button>
+      <button type="submit">Start Swiping Movies In Your Recommended Genres</button>
     </form>
 
     <form v-on:submit.prevent="loadMovieRecs()">
       <button type="submit">See Movie Recs Based on Favorite Movie</button>
     </form>
 
+  <!--show all movies in table-->
     <tbody>
       <tr v-for="movie in movies" v-bind:key="movie.id">
         <td>my movie:</td>
@@ -61,6 +82,10 @@
         <!--to see the photo att to img path: https://www.themoviedb.org/t/p/w600_and_h900_bestv2/-->
       </tr>
     </tbody>
+
+
+
+
   </div>
 </template>
 
@@ -83,9 +108,27 @@ export default {
       genre: "",
       genres: [],
       movies: [],
+      currentMovieIndex: 0,
     };
   },
   methods: {
+    addToFavorites(){
+      let userPlusCurrentMovieId = {user: this.$store.state.user, movieId: this.movies[this.currentMovieIndex].id};
+      movieService
+      .addFavorite(userPlusCurrentMovieId)
+      .then((response) =>{
+        this.$store.commit("SET_FAVORITES", response.data)
+      });
+      this.$alert("Favorites Updated!");
+    },
+    updateCurrentMovie(){
+      if(this.currentMovieIndex < this.movies.length - 1){
+          this.currentMovieIndex++;
+      }
+      else{
+        this.currentMovieIndex = 0;
+      }
+    },
     addGenre() {
       let myCustomUser = { user: this.$store.state.user, genres: this.genres };
       movieService
@@ -117,6 +160,16 @@ export default {
         this.movies = response.data.results;
       });
     },
+  },
+  computed: {
+    currentMovie(){
+      if(this.movies.length < 1){
+                        return "Click Next To Swipe";
+      }
+      else{
+        return this.movies[this.currentMovieIndex];
+      }
+    }
   },
 };
 </script>

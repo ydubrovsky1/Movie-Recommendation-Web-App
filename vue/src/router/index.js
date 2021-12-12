@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
+import MoviesByGenre from '../views/MoviesByGenre.vue'
 
 Vue.use(Router)
 
@@ -53,6 +54,15 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path:"/moviesByGenre",
+      name: "moviesByGenre",
+      component: MoviesByGenre,
+      meta:{
+        requiresAuth: true
+      }
+
+    }
   ]
 })
 
