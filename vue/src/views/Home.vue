@@ -52,9 +52,12 @@ Vue.use(VueSimpleAlert);
 export default {
   name: "home",
   components: {},
-  /*data(){
-    return null;
-  },*/
+  data(){
+    return {
+      genres: []   
+      
+    };
+  },
   methods: {
     addGenre(genreId){
       
@@ -63,7 +66,7 @@ export default {
       .then(response => {this.$store.commit("SET_GENRES", response.data)}); //
        this.$alert("Hello Vue Simple Alert.");
     },
-    
+
 
 
   },
