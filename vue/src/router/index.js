@@ -54,6 +54,7 @@ const router = new Router({
         requiresAuth: false
       }
     },
+
     {
       path:"/moviesByGenre",
       name: "moviesByGenre",
@@ -63,6 +64,7 @@ const router = new Router({
       }
 
     }
+
   ]
 })
 

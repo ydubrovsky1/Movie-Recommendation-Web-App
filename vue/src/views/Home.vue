@@ -51,9 +51,9 @@
     </tbody>
     <button v-on:click="updateCurrentMovie()">Get Next Movie</button>
 
-
+    <!--MEH
     <button v-on:click="addToFavorites()">Get Next Movie</button>
-
+    -->
     <tbody>
       <!--$store.state.genres-->
       <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
@@ -112,6 +112,7 @@ export default {
     };
   },
   methods: {
+    /*MEH
     addToFavorites(){
       let userPlusCurrentMovieId = {user: this.$store.state.user, movieId: this.movies[this.currentMovieIndex].id};
       movieService
@@ -121,6 +122,7 @@ export default {
       });
       this.$alert("Favorites Updated!");
     },
+    */
     updateCurrentMovie(){
       if(this.currentMovieIndex < this.movies.length - 1){
           this.currentMovieIndex++;
