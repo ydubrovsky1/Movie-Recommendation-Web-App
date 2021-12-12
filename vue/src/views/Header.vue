@@ -25,9 +25,9 @@ export default {
 }
 #header-title {
   font-family: fantasy;
-  color: lightblue;
+  color: red;
   text-align: center;
-  text-shadow: 10px 10px 10px orange;
+  text-shadow: 10px 10px 10px blue;
 }
 .nav {
   font-family: fantasy;
