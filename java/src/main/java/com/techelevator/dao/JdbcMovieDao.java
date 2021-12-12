@@ -1,5 +1,6 @@
 package com.techelevator.dao;
 
+<<<<<<< HEAD
 import com.techelevator.model.Genre;
 import com.techelevator.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,30 @@ public class JdbcMovieDao implements MovieDao{
 
         Movie movie = new Movie();
 
+=======
+import com.techelevator.model.Movie;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+
+import java.sql.Array;
+
+public class JdbcMovieDao {
+
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcMovieDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public Movie findMovieById(int movieId) {
+>>>>>>> 4cfa76c5696a621365b4243859b8746fd745902c
         String sql = "SELECT movie_id, title, " +
                 "overview, runtime, director, actors, release_date, rating, " +
                 "certification, genres FROM movies " +
                 "WHERE movie_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, movieId);
 
+<<<<<<< HEAD
         PreparedStatement pstmt = con.prepareStatement("SELECT movie_id, title, " +
                 "overview, runtime, director, actors, release_date, rating, " +
                 "certification, genres FROM movies " +
@@ -57,11 +76,21 @@ public class JdbcMovieDao implements MovieDao{
     }
     //SELECT * from movies where 20 = ANY(genres);
     public Movie mapRowToMovie(SqlRowSet rs, int[] genres, String[] actors) {
+=======
+        if (results.next()) {
+
+        }
+        return null;
+    }
+        //SELECT * from movies where 20 = ANY(genres);
+    public Movie mapRowToMovie(SqlRowSet rs) {
+>>>>>>> 4cfa76c5696a621365b4243859b8746fd745902c
         Movie movie = new Movie();
         movie.setMovieId(rs.getInt("movie_id"));
         movie.setTitle(rs.getString("title"));
         movie.setOverview(rs.getString("overview"));
         movie.setRuntime(rs.getInt("runtime"));
+<<<<<<< HEAD
         if (rs.getString("director") != null) {
             movie.setDirector(rs.getString("director"));
         }
@@ -82,3 +111,10 @@ public class JdbcMovieDao implements MovieDao{
         return movie;
     }
 }
+=======
+        movie.setDirector(rs.getString("director"));
+        //Array g = rs.getArray
+        return movie;
+    }
+}
+>>>>>>> 4cfa76c5696a621365b4243859b8746fd745902c

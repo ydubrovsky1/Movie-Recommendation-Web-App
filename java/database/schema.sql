@@ -35,7 +35,7 @@ CREATE TABLE movies (
         release_date date NOT NULL,
         rating numeric,
         certification varchar(10),
-        genre_id int NOT NULL,--fk
+        genres int[] NOT NULL,--fk
         constraint pk_movies primary key(movie_id)
 );
 
@@ -57,8 +57,10 @@ CREATE TABLE genres_users (
 
 CREATE TABLE favorites (
         user_id int NOT NULL,
-        movie_id int NOT NULL
+        movie_id int NOT NULL,
         --CONSTRAINT PK_user PRIMARY KEY (user_id)
+        constraint fk_favorites_users foreign key(user_id) references users(user_id),
+        constraint fk_favorites_movies foreign key(movie_id) references movies(movie_id)
 );
 
 INSERT INTO users (username,password_hash,user_age,above_17,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 18, true, 'ROLE_USER');
@@ -84,5 +86,15 @@ INSERT INTO genres (genre_id, genre_name) VALUES ('53','Thriller');
 INSERT INTO genres (genre_id, genre_name) VALUES ('10752','War');
 INSERT INTO genres (genre_id, genre_name) VALUES ('37','Western');
 
+INSERT INTO movies (movie_id, title, overview, runtime, director, actors, release_date, rating, certification, genres) 
+VALUES (580489, 'Venom: Let There Be Carnage', 'After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face a new enemy, Carnage, the alter ego of serial killer Cletus Kasady.', 
+        97, '', '', '2021-09-30', 7.2, 'PG-13', '{878,20,12}');
+
+        
+INSERT INTO favorites (user_id, movie_id)
+VALUES (1, 580489);
+
+
 
 COMMIT TRANSACTION;
+

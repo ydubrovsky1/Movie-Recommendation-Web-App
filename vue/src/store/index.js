@@ -20,7 +20,8 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    genres: [{"id": 12, "genreName": "Adventure"}]
+    genres: [{"id": 12, "genreName": "Adventure"}],
+    customUser: {"user": currentUser, "genres": []}
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -41,6 +42,6 @@ export default new Vuex.Store({
     },
     SET_GENRES(state, data) {
       state.genres = data;
-    }
+    },
   }
 })
