@@ -6,11 +6,11 @@ export default {
         return axios.post('/genre', customUser)
     },
 
-    /*MEH
+
     addFavorite(userPlusCurrentMovieId){
         return axios.post('/addFavorite', userPlusCurrentMovieId)
     }
-    */
+
 
   
 

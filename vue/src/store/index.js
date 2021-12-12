@@ -44,10 +44,10 @@ export default new Vuex.Store({
     SET_GENRES(state, data) {
       state.genres = data;
     },
-    /*MEH
+
     SET_FAVORITES(state, data){
       state.favorites.push(data);
     }
-    */
+
   }
 })
