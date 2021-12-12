@@ -10,4 +10,5 @@ public interface MovieDao {
     Movie findMovieById(int movieId) throws SQLException;
     Movie mapRowToMovie(SqlRowSet rs, Integer[] genres, String[] actors);
 
+    boolean saveMovie(Movie movie);
 }

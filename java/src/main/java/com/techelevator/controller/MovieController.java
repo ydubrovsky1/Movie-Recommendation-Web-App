@@ -7,6 +7,7 @@ import com.techelevator.dao.MovieDao;
 import com.techelevator.model.Genre;
 import com.techelevator.model.Movie;
 import com.techelevator.model.User;
+import com.techelevator.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +29,13 @@ public class MovieController {
     private GenreDao genreDao;
     @Autowired
     private MovieDao movieDao;
+    private MovieService movieService;
 
 
-    public MovieController(GenreDao genreDao, MovieDao movieDao) throws SQLException {
+    public MovieController(GenreDao genreDao, MovieDao movieDao, MovieService movieService) throws SQLException {
         this.genreDao = genreDao;
         this.movieDao = movieDao;
+        this.movieService = movieService;
 
     }
 
@@ -44,6 +47,15 @@ public class MovieController {
     @RequestMapping(path = "/movie/{id}", method = RequestMethod.GET)
     public Movie getMovieById(@PathVariable int id) throws SQLException {
         return movieDao.findMovieById(id);
+    }
+
+    @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
+    public Movie addMovie(@RequestBody @Valid User user) throws SQLException {
+//        Movie movie = movieService.getMovie(user.getFavoriteMovieId());
+//        if (movieDao.findMovieById(user.getFavoriteMovieId()).getMovieId() != user.getFavoriteMovieId()) {
+//            movieDao.saveMovie(movie);
+//        }
+        return movieDao.findMovieById(user.getFavoriteMovieId());
     }
 
 }

@@ -1,46 +1,3 @@
-//package com.techelevator.dao;
-//
-//import com.techelevator.model.Genre;
-//import com.techelevator.model.Movie;
-//import org.springframework.jdbc.core.JdbcTemplate;
-//import org.springframework.jdbc.support.rowset.SqlRowSet;
-//import org.springframework.stereotype.Component;
-//
-//import javax.sql.DataSource;
-//import java.sql.*;
-//import java.util.ArrayList;
-//import java.util.List;
-////import org.apache.commons.dbcp2.BasicDataSource;
-//import org.springframework.stereotype.Service;
-//
-//@Service
-//public class JdbcMovieDao implements MovieDao{
-//
-//    private JdbcTemplate jdbcTemplate;
-//    Connection con;
-//
-//    {
-//        try {
-//            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/final_capstone?user=final_capstone_appuser&password=finalcapstone");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    Statement stmt;
-//
-//    {
-//        try {
-//            stmt = con.createStatement();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    public JdbcMovieDao(DataSource dataSource) {
-//        this.jdbcTemplate = new JdbcTemplate(dataSource);
-//    }
-
 package com.techelevator.dao;
 
 import java.sql.*;
@@ -126,6 +83,17 @@ public class JdbcMovieDao implements MovieDao {
 
         return movie;
     }
+
+    public boolean saveMovie(Movie movie){
+        String sql = "INSERT INTO movies (movie_id, title, overview, runtime, " +
+                "director, actors, release_date, rating, certification, genres) " +
+                "VALUES (0, '', '', 0, '', '', '', 0, '', '');";
+
+
+        return true;
+    }
+
+
         //SELECT * from movies where 20 = ANY(genres);
     public Movie mapRowToMovie(SqlRowSet rs, Integer[] genres, String[] actors) {
         Movie movie = new Movie();
