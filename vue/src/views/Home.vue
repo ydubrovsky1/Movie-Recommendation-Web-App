@@ -127,6 +127,13 @@ export default {
       currentMovieIndex: 0,
     };
   },
+  beforeMount(){
+    let userAndGenresToAdd = { userId: this.$store.state.user.id, genreIds: [] };
+    movieService.getGenres(userAndGenresToAdd)
+    .then((response) =>{
+        this.$store.commit("SET_GENRES", response.data);
+    });
+  },
   methods: {
     containsGenre(genreId){
  
