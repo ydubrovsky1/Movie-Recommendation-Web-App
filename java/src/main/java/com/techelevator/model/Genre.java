@@ -29,14 +29,11 @@ public class Genre {
 
     public void setId(int id) {
         this.id = id;
+        this.genreName = genreIdName.get(id);
     }
 
     public String getGenreName() {
         return genreName;
-    }
-
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
     }
 
     private void setGenres() {

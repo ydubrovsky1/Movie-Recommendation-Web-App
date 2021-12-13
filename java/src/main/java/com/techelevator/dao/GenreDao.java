@@ -7,4 +7,5 @@ import java.util.List;
 public interface GenreDao {
     List<Genre> save(int userId, List<Integer> genreIds);
     List<Genre> getGenresByUser(int userId);
+    boolean deleteGenreFromUser(int userId, int genreId);
 }
