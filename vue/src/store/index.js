@@ -42,6 +42,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common = {};
     },
     SET_GENRES(state, data) {
+      state.user.preferredGenres = data;
       state.genres = data;
     },
 

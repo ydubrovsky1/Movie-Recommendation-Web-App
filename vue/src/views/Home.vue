@@ -34,31 +34,32 @@
         <h1>Browse Movie</h1>
         <div id="right-panel-middle-row">
           <button id="abhore-button">Abhore</button>
-          <img id="movie-poster" src="../img/trapped-movie-poster.jpg" />
+          <button v-if="this.movies.length < 1" v-on:click="loadMoviesByGenre()">Start Swiping Movies In Your Recommended Genres</button> 
+          <tbody v-if="this.movies.length > 0">
+            <tr>
+            <img :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` + currentMovie.poster_path" v-if="this.movies.length  > 0" id="movie-poster"/>
+            </tr>
+          <tr>
+          </tr>
+          <tr>
+          <td>{{ currentMovie.genre_ids }}</td>
+          </tr>
+          <tr>
+          <td>{{ currentMovie.overview }}</td>
+          </tr>
+          <tr>
+          <td>Release Date: {{ currentMovie.release_date }}</td>
+          </tr>
+                       </tbody>
           <button id="adore-button">Adore</button>
+ 
         </div>
 
 
 
 
         <!--show one movie at a time in table-->
-    <tbody v-if="this.movies.length > 0">
-        <tr>
-        <td>{{ currentMovie.original_title }}</td>
-        </tr>
-        <tr>
-        <td>{{ currentMovie.genre_ids }}</td>
-        </tr>
-        <tr>
-        <td>{{ currentMovie.overview }}</td>
-        </tr>
-        <tr>
-        <td>{{ currentMovie.release_date }}</td>
-        </tr>
-        <tr>
-        <td><img :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` + currentMovie.poster_path" alt="Girl in a jacket" width="500" height="600"></td>
-        </tr>
-    </tbody>
+
     <button v-on:click="updateCurrentMovie()">Get Next Movie</button>
 
 
@@ -72,11 +73,6 @@
         </div>
       </section>
     </div>
-    <!-- <tbody>
-      <tr v-for="genre in this.genres" v-bind:key="genre.id">
-        <td>{{ genre}}</td>
-      </tr>
-    </tbody> -->
 
     <tbody>
       <!--$store.state.genres-->
@@ -85,9 +81,7 @@
       </tr>
     </tbody>
 
-    <form v-on:submit.prevent="loadMoviesByGenre()">
-      <button type="submit">Start Swiping Movies In Your Recommended Genres</button>
-    </form>
+
 
     <form v-on:submit.prevent="loadMovieRecs()">
       <button type="submit">See Movie Recs Based on Favorite Movie</button>
@@ -138,7 +132,7 @@ export default {
   methods: {
 
     addToFavorites(){
-      let userPlusCurrentMovieId = {user: this.$store.state.user, movieId: this.movies[this.currentMovieIndex].id};
+      let userPlusCurrentMovieId = {userId: this.$store.state.user.id, movieId: this.movies[this.currentMovieIndex].id};
       movieService
       .addFavorite(userPlusCurrentMovieId)
       .then((response) =>{
@@ -156,9 +150,9 @@ export default {
       }
     },
     addGenre() {
-      let myCustomUser = { user: this.$store.state.user, genres: this.genres };
+      let userAndGenresToAdd = { userId: this.$store.state.user.id, genres: this.genres };
       movieService
-        .addGenre(myCustomUser) //this calls movie service in the back-end
+        .addGenre(userAndGenresToAdd) //this calls movie service in the back-end
         //response
         .then((response) => {
           this.$store.commit("SET_GENRES", response.data);
