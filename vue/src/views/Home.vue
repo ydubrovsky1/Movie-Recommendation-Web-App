@@ -66,9 +66,9 @@
         <br />
         <br />
         <div id="right-panel-row-button">
-          <button>Previous</button>
-          <button>Add To Favorites</button>
-          <button>Next</button>
+          <button id="previous-button">Previous</button>
+          <button id="favorites-button">Add To Favorites</button>
+          <button id="next-button">Next</button>
         </div>
       </section>
     </div>
@@ -223,27 +223,29 @@ h1 {
   color: black;
   text-align: center;
   text-shadow: 10px 10px 10px orange;
+  font-size: 300%;
 }
 h2 {
   font-family: fantasy;
   color: black;
   text-align: left;
   text-shadow: 10px 10px 10px orange;
+  font-size: 150%;
 }
 #genre-choice {
   font-family: fantasy;
   color: black;
-  text-align: left;
+  text-align: center;
   text-shadow: 10px 10px 10px orange;
-  margin: 20px 100px;
   align-content: center;
   align-items: center;
   justify-content: center;
+  font-size: 300%;
 }
 #update-genre-button {
   height: 40px;
   width: 75%;
-  font-size: 80%;
+  font-size: 120%;
   border-radius: 10px;
   font-family: fantasy;
   background: orange;
@@ -255,9 +257,9 @@ h2 {
   justify-content: center;
 }
 #genres {
-  height: 42vh;
-  width: 100%;
-  font-size: 100%;
+  height: 90vh;
+  width: 120%;
+  font-size: 175%;
   border-radius: 10px;
   color: orange;
   font-family: fantasy;
@@ -266,16 +268,11 @@ h2 {
   display: flex;
   align-content: center;
   align-items: center;
-  justify-content: center;
-  margin: 0px 20px;
-  text-indent: 1%;
+  justify-content: flex-start;
+  margin: 0px 0px;
+  text-indent: 10%;
   border: 2px solid green;
   border-radius: 4px;
-}
-
-img {
-  height: 100%;
-  width: 50%;
 }
 
 .main {
@@ -292,16 +289,78 @@ img {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  align-items: center;
 }
 
 #movie-poster {
+  height: 100%;
+  width: 50%;
 }
 
 #abhore-button {
-  background: url(../img/movie mar 2.png) center / cover no-repeat;
+  background: url(../img/abhore-ticket.jpg) center / cover no-repeat;
+  width: 50%;
+  height: 25%;
+  margin: 5px;
+  border-radius: 5px;
+  font-family: fantasy;
+  border: 2px solid red;
+  font-size: 200%;
 }
 
 #adore-button {
-  background: url(../img/movie mar 2.png) center / cover no-repeat;
+  background: url(../img/adore-ticket.jpg) center / cover no-repeat;
+  width: 50%;
+  height: 25%;
+  margin: 5px;
+  border-radius: 5px;
+  font-family: fantasy;
+  border: 2px solid green;
+  font-size: 200%;
+}
+
+#previous-button {
+  height: 40px;
+  width: 20%;
+  font-size: 120%;
+  border-radius: 10px;
+  font-family: fantasy;
+  background: orange;
+  text-align: center;
+  color: black;
+  margin: 0px 40px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+#favorites-button {
+  height: 40px;
+  width: 20%;
+  font-size: 120%;
+  border-radius: 10px;
+  font-family: fantasy;
+  background: orange;
+  text-align: center;
+  color: black;
+  margin: 0px 40px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+#next-button {
+  height: 40px;
+  width: 20%;
+  font-size: 120%;
+  border-radius: 10px;
+  font-family: fantasy;
+  background: orange;
+  text-align: center;
+  color: black;
+  margin: 0px 40px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
 </style>
