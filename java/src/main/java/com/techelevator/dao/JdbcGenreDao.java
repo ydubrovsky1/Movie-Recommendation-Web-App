@@ -1,29 +1,36 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Genre;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+
+@Service
 public class JdbcGenreDao implements GenreDao {
 
     private JdbcTemplate jdbcTemplate;
-    @Override
-    public List<Genre> save(int userId, List<Genre> genres) {
-        List<Genre> myGenres = new ArrayList<>();
-        myGenres.add( new Genre(28));
-        myGenres.add( new Genre(12));
-        myGenres.add( new Genre(16));
-//        String sql = "INSERT INTO user_to_genres (user_id, genre_id) VALUES (?, ?)";
-//        for(Genre genre : genres){
-//            jdbcTemplate.update(sql, userId, genre.getId());
-//        }
 
-        //return getGenresByUser(userId);
+    public JdbcGenreDao (JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<Genre> save(int userId, List<Integer> genreIds) {
+        List<Genre> myGenres = new ArrayList<>();
+
+        String sql = "INSERT INTO genres_users (user_id, genre_id) VALUES (?, ?)";
+        for(Integer genre : genreIds){
+            jdbcTemplate.update(sql, userId, genre);
+        }
+
+        myGenres = getGenresByUser(userId);
+
         return myGenres;
     }
 
