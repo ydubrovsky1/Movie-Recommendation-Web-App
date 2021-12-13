@@ -9,6 +9,10 @@ export default {
 
     addFavorite(userPlusCurrentMovieId){
         return axios.post('/addFavorite', userPlusCurrentMovieId)
+    },
+
+    getGenres(userAndGenresToAdd){
+        return axios.post('/getGenres', userAndGenresToAdd)
     }
 
 

@@ -207,6 +207,13 @@ export default {
       currentMovieIndex: 0,
     };
   },
+  beforeMount(){
+    let userAndGenresToAdd = { userId: this.$store.state.user.id, genreIds: [] };
+    movieService.getGenres(userAndGenresToAdd)
+    .then((response) =>{
+        this.$store.commit("SET_GENRES", response.data);
+    });
+  },
   methods: {
 <<<<<<< HEAD
     addToFavorites() {
@@ -283,7 +290,8 @@ export default {
       if (this.$store.state.genres.length > 0) {
         let myGenreUrl = "";
         for (let i = 0; i < this.$store.state.genres.length; i++) {
-          myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "%2C";
+          //do %2C instead of + to get movies that include every genre, instead of movies that include at least one of the genres
+          myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "+";
         }
         apiMovieService.getMoviesByGenre(myGenreUrl).then((response) => {
           this.movies = response.data.results;

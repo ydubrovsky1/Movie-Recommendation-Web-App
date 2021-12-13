@@ -24,10 +24,14 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> save(int userId, List<Integer> genreIds) {
         List<Genre> passedGenres = mapIntegerToGenres(genreIds);
         List<Genre> myGenres = getGenresByUser(userId);
+        List<Integer> myGenresIds = new ArrayList<>();
+        for(Genre genre : myGenres){
+            myGenresIds.add(genre.getId());
+        }
         List<Genre> saveList = new ArrayList<>();
 
         for (Genre passedGenre : passedGenres) {
-            if (!myGenres.contains(passedGenre)) { //if its not in the my genres list, add it
+            if (!myGenresIds.contains(passedGenre.getId())) { //if its not in the my genres list, add it
                 saveList.add(passedGenre);
             }
         }
