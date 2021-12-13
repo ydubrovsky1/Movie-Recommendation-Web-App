@@ -4,9 +4,7 @@ import com.techelevator.dao.GenreDao;
 import com.techelevator.dao.JdbcGenreDao;
 import com.techelevator.dao.JdbcMovieDao;
 import com.techelevator.dao.MovieDao;
-import com.techelevator.model.Genre;
-import com.techelevator.model.Movie;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import com.techelevator.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
@@ -40,8 +38,8 @@ public class MovieController {
     }
 
     @RequestMapping(path = "/genre", method = RequestMethod.POST)
-    public List<Genre> updateGenres(@RequestBody @Valid User user) {
-        return genreDao.save(user.getId(), user.getPreferredGenres());
+    public List<Genre> updateGenres(@RequestBody @Valid UserGenre userGenre) {
+        return genreDao.save(userGenre.getUserId(), userGenre.getGenreIds());
     }
 
     @RequestMapping(path = "/movie/{id}", method = RequestMethod.GET)
@@ -50,12 +48,12 @@ public class MovieController {
     }
 
     @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
-    public Movie addMovie(@RequestBody @Valid User user) throws SQLException {
+    public Movie addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
 //        Movie movie = movieService.getMovie(user.getFavoriteMovieId());
 //        if (movieDao.findMovieById(user.getFavoriteMovieId()).getMovieId() != user.getFavoriteMovieId()) {
 //            movieDao.saveMovie(movie);
 //        }
-        return movieDao.findMovieById(user.getFavoriteMovieId());
+        return movieDao.findMovieById(userMovie.getMovieId());
     }
 
 }
