@@ -8,6 +8,7 @@
 
           <div
             class="alert alert-danger"
+            id="alert-message"
             role="alert"
             v-if="invalidCredentials"
           >
@@ -15,6 +16,7 @@
           </div>
           <div
             class="alert alert-success"
+            id="alert-message"
             role="alert"
             v-if="this.$route.query.registration"
           >
@@ -165,5 +167,11 @@ a:active {
 }
 .form-control {
   font-size: 75%;
+}
+#alert-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 </style>
