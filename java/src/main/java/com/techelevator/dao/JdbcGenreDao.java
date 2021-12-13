@@ -1,29 +1,44 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Genre;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+
+@Service
 public class JdbcGenreDao implements GenreDao {
 
     private JdbcTemplate jdbcTemplate;
-    @Override
-    public List<Genre> save(int userId, List<Genre> genres) {
-        List<Genre> myGenres = new ArrayList<>();
-        myGenres.add( new Genre(28, "Action"));
-        myGenres.add( new Genre(12, "Adventure"));
-        myGenres.add( new Genre(16, "Animation"));
-//        String sql = "INSERT INTO user_to_genres (user_id, genre_id) VALUES (?, ?)";
-//        for(Genre genre : genres){
-//            jdbcTemplate.update(sql, userId, genre.getId());
-//        }
 
-        //return getGenresByUser(userId);
+    public JdbcGenreDao (JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<Genre> save(int userId, List<Integer> genreIds) {
+        List<Genre> passedGenres = mapIntegerToGenres(genreIds);
+        List<Genre> myGenres = getGenresByUser(userId);
+        List<Genre> saveList = new ArrayList<>();
+
+        for (Genre passedGenre : passedGenres) {
+            if (!myGenres.contains(passedGenre)) { //if its not in the my genres list, add it
+                saveList.add(passedGenre);
+            }
+        }
+
+
+        String sql = "INSERT INTO genres_users (user_id, genre_id) VALUES (?, ?)";
+        for(Genre genre : saveList){
+            jdbcTemplate.update(sql, userId, genre.getId());
+        }
+
+        myGenres = getGenresByUser(userId);
         return myGenres;
     }
 
@@ -31,7 +46,7 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> getGenresByUser(int userId) {
         List<Genre> myGenres = new ArrayList<>();
         //TODO: ADJUST THE QUERIES ONCE HAVE TAbles
-        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN user_to_genres ug WHERE userId = ?";
+        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN genres_users gu ON g.genre_id = gu.genre_id WHERE gu.user_id = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while(results.next()) {
@@ -41,10 +56,42 @@ public class JdbcGenreDao implements GenreDao {
         return myGenres;
     }
 
+    public Genre getGenreByUser(int userId, int genreId) {
+        Genre genre = new Genre();
+
+        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN user_to_genres ug WHERE userId = ? AND g.genre_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+
+        if (results.next()) {
+            genre = mapRowToGenre(results);
+        }
+        return genre;
+    }
+
+    public boolean deleteGenreFromUser(int userId, int genreId) {
+
+        if (getGenreByUser(userId, genreId) != null) {
+            return false;
+        }
+
+        String sql = "DELETE FROM genres_users WHERE genre_id = ? and user_id = ?;";
+
+        return jdbcTemplate.update(sql, genreId, userId) == 1;
+
+    }
+
     private Genre mapRowToGenre(SqlRowSet rs) {
         Genre genre = new Genre();
-        genre.setGenreName("name");
-        genre.setId(rs.getInt("id"));
+        genre.setId(rs.getInt("genre_id"));
         return genre;
-    };
+    }
+
+    private List<Genre> mapIntegerToGenres(List<Integer> ints) {
+        List<Genre> genres = new ArrayList<>();
+        for (Integer genreId : ints) {
+            genres.add( new Genre(genreId));
+        }
+        return genres;
+    }
 }

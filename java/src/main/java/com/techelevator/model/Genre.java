@@ -11,9 +11,32 @@ public class Genre {
     public static final HashMap<Integer, String> genreIdName = new HashMap<>();
 
     //TODO: genere name based on id
-    public Genre(int id, String genreName) {
-        this.id = id;
 
+
+    public Genre() {
+        setGenres();
+    }
+
+    public Genre(int genreId) {
+        setGenres();
+        this.id = genreId;
+        this.genreName = genreIdName.get(genreId);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+        this.genreName = genreIdName.get(id);
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    private void setGenres() {
         this.genreIdName.put(28,"Action");
         this.genreIdName.put(12,"Adventure");
         this.genreIdName.put(16,"Animation");
@@ -33,26 +56,5 @@ public class Genre {
         this.genreIdName.put(53,"Thriller");
         this.genreIdName.put(10752,"War");
         this.genreIdName.put(37,"Western");
-
-        this.genreName = genreIdName.get(id);
-    }
-
-    public Genre() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getGenreName() {
-        return genreName;
-    }
-
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
     }
 }
