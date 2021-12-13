@@ -3,28 +3,28 @@
     <Header />
     <div class="main">
       <section id="left-panel">
-        <h2 id="genre-choice">Choose A Genre:</h2>
+        <h2 id="genre-choice">Add Genres:</h2>
         <form id="genre-dropdown" v-on:submit.prevent="addGenre">
           <select id="genres" v-model="genres" multiple>
-            <option value="28">Action</option>
-            <option value="12">Adventure</option>
-            <option value="16">Animation</option>
-            <option value="35">Comedy</option>
-            <option value="80">Crime</option>
-            <option value="99">Documentary</option>
-            <option value="18">Drama</option>
-            <option value="10751">Family</option>
-            <option value="14">Fantasy</option>
-            <option value="36">History</option>
-            <option value="27">Horror</option>
-            <option value="10402">Music</option>
-            <option value="9648">Mystery</option>
-            <option value="10749">Romance</option>
-            <option value="878">Science Fiction</option>
-            <option value="10770">TV Movie</option>
-            <option value="53">Thriller</option>
-            <option value="10752">War</option>
-            <option value="37">Western</option>
+            <option value="28" v-if="!containsGenre(28)">Action</option>
+            <option value="12" v-if="!containsGenre(12)">Adventure</option>
+            <option value="16" v-if="!containsGenre(16)">Animation</option>
+            <option value="35" v-if="!containsGenre(35)">Comedy</option>
+            <option value="80" v-if="!containsGenre(80)">Crime</option>
+            <option value="99" v-if="!containsGenre(99)">Documentary</option>
+            <option value="18" v-if="!containsGenre(18)">Drama</option>
+            <option value="10751" v-if="!containsGenre(18)">Family</option>
+            <option value="14" v-if="!containsGenre(14)">Fantasy</option>
+            <option value="36" v-if="!containsGenre(36)">History</option>
+            <option value="27" v-if="!containsGenre(27)">Horror</option>
+            <option value="10402" v-if="!containsGenre(10402)">Music</option>
+            <option value="9648" v-if="!containsGenre(9648)">Mystery</option>
+            <option value="10749" v-if="!containsGenre(10749)">Romance</option>
+            <option value="878" v-if="!containsGenre(878)">Science Fiction</option>
+            <option value="10770" v-if="!containsGenre(10770)">TV Movie</option>
+            <option value="53" v-if="!containsGenre(53)">Thriller</option>
+            <option value="10752" v-if="!containsGenre(10752)">War</option>
+            <option value="37" v-if="!containsGenre(37)">Western</option>
           </select>
           <br />
           <button id="update-genre-button" type="submit">Update Genres</button>
@@ -51,7 +51,7 @@
           <td>Release Date: {{ currentMovie.release_date }}</td>
           </tr>
                        </tbody>
-          <button id="adore-button">Adore</button>
+          <button id="adore-button" v-on:click="addToFavorites(); updateCurrentMovie()">Adore</button>
  
         </div>
 
@@ -60,16 +60,14 @@
 
         <!--show one movie at a time in table-->
 
-    <button v-on:click="updateCurrentMovie()">Get Next Movie</button>
 
 
-    <button v-on:click="addToFavorites()">Add To Faves</button>
         <br />
         <br />
         <div id="right-panel-row-button">
           <button id="previous-button">Previous</button>
-          <button id="favorites-button">Add To Favorites</button>
-          <button id="next-button">Next</button>
+          <!--<button id="favorites-button">Add To Favorites</button>-->
+          <button id="next-button" v-on:click="updateCurrentMovie()">Next</button>
         </div>
       </section>
     </div>
@@ -87,7 +85,8 @@
       <button type="submit">See Movie Recs Based on Favorite Movie</button>
     </form>
 
-  <!--show all movies in table-->
+
+  <!--show all movies in table
     <tbody>
       <tr v-for="movie in movies" v-bind:key="movie.id">
         <td>my movie:</td>
@@ -97,11 +96,10 @@
         <td>{{ movie.overview }}</td>
         <td>{{ movie.release_date }}</td>
         <td>{{ movie.poster_path }}</td>
-        <!--to see the photo att to img path: https://www.themoviedb.org/t/p/w600_and_h900_bestv2/-->
       </tr>
     </tbody>
 
-
+-->
 
 
   </div>
@@ -130,7 +128,25 @@ export default {
     };
   },
   methods: {
+    containsGenre(genreId){
+ 
+     for(let i=0; i< this.$store.state.genres.length; i++ ){
+        if(this.$store.state.genres[i].id == genreId){
+          return true;
+        }
+     }
+     return false;
+     /*
+       this.$store.state.genres.forEach((genre) =>{
+        if(genre.id == genreId){
+          return true;
+        }
+      });
+      this.$alert(`genre.id: ${genre.id} genreId: ${genreId}`);
+      return false;
+      */
 
+    },
     addToFavorites(){
       let userPlusCurrentMovieId = {userId: this.$store.state.user.id, movieId: this.movies[this.currentMovieIndex].id};
       movieService
@@ -150,7 +166,7 @@ export default {
       }
     },
     addGenre() {
-      let userAndGenresToAdd = { userId: this.$store.state.user.id, genres: this.genres };
+      let userAndGenresToAdd = { userId: this.$store.state.user.id, genreIds: this.genres };
       movieService
         .addGenre(userAndGenresToAdd) //this calls movie service in the back-end
         //response
