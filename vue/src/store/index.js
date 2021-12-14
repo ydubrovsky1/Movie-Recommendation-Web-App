@@ -30,13 +30,8 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-<<<<<<< HEAD
     genres: [{ "id": 12, "genreName": "Adventure" }],
     customUser: { "user": currentUser, "genres": [] },
-=======
-    genres: [{"id": 12, "genreName": "Adventure"}],
-    customUser: {"user": currentUser, "genres": []},
->>>>>>> 3452f2a56b2f90d5f338530d91c4ad4a22c2cbae
     favorites: []
   },
   mutations: {
@@ -61,11 +56,7 @@ export default new Vuex.Store({
       state.genres = data;
     },
 
-<<<<<<< HEAD
     SET_FAVORITES(state, data) {
-=======
-    SET_FAVORITES(state, data){
->>>>>>> 3452f2a56b2f90d5f338530d91c4ad4a22c2cbae
       state.favorites.push(data);
     }
 

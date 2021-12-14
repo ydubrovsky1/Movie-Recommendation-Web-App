@@ -61,4 +61,10 @@ public class MovieController {
 //        }
         return movieDao.findMovieById(userMovie.getMovieId());
     }
+
+    @RequestMapping(path = "/getGenres", method = RequestMethod.POST)
+    public List<Genre> getGenres(@RequestBody UserGenre userGenre) {
+        return genreDao.getGenresByUser(userGenre.getUserId());
+    }
+
 }

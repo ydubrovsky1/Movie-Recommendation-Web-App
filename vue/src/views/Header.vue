@@ -3,23 +3,17 @@
     <div id="header-title">
       <h1>Movie Baker</h1>
     </div>
-    <!-- <div class="nav">
-      <a href="#">Account Settings</a>
-      <br />
-      <a href="#">Favorite Movies</a>
-      <br />
-      <a href="#">Watch List</a>
-      <br />
-      <a href="#">Log Out</a>
-    </div> -->
     <nav class="main-nav">
       <burger-menu />
     </nav>
     <sidebar>
       <ul class="sidebar-panel-nav">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
+        <li><a href="#about">User Profile</a></li>
+        <li><a href="#contact">Watch List</a></li>
+        <li>
+          <router-link v-bind:to="{ name: 'logout' }">Log Out</router-link>
+        </li>
       </ul>
     </sidebar>
   </div>
@@ -84,7 +78,7 @@ body {
 
 .main-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0.5rem 0.8rem;
 }
 
