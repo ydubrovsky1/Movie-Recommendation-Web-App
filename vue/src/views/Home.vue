@@ -34,36 +34,42 @@
         <h1>Browse Movie</h1>
         <div id="right-panel-middle-row">
           <button id="abhore-button">Abhore</button>
-          <button v-if="this.movies.length < 1" v-on:click="loadMoviesByGenre()">Start Swiping Movies In Your Recommended Genres</button> 
+          <button
+            v-if="this.movies.length < 1"
+            v-on:click="loadMoviesByGenre()"
+          >
+            Start Swiping Movies In Your Recommended Genres
+          </button>
           <tbody v-if="this.movies.length > 0">
             <tr>
-            <img :src="`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` + currentMovie.poster_path" v-if="this.movies.length  > 0" id="movie-poster"/>
+              <img
+                :src="
+                  `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` +
+                  currentMovie.poster_path
+                "
+                v-if="this.movies.length > 0"
+                id="movie-poster"
+              />
             </tr>
-          <tr>
-          </tr>
-          <tr>
-          <td>{{ currentMovie.genre_ids }}</td>
-          </tr>
-          <tr>
-          <td>{{ currentMovie.overview }}</td>
-          </tr>
-          <tr>
-          <td>Release Date: {{ currentMovie.release_date }}</td>
-          </tr>
-                       </tbody>
+            <tr></tr>
+            <tr>
+              <td>{{ currentMovie.genre_ids }}</td>
+            </tr>
+            <tr>
+              <td>{{ currentMovie.overview }}</td>
+            </tr>
+            <tr>
+              <td>Release Date: {{ currentMovie.release_date }}</td>
+            </tr>
+          </tbody>
           <button id="adore-button">Adore</button>
- 
         </div>
-
-
-
 
         <!--show one movie at a time in table-->
 
-    <button v-on:click="updateCurrentMovie()">Get Next Movie</button>
+        <button v-on:click="updateCurrentMovie()">Get Next Movie</button>
 
-
-    <button v-on:click="addToFavorites()">Add To Faves</button>
+        <button v-on:click="addToFavorites()">Add To Faves</button>
         <br />
         <br />
         <div id="right-panel-row-button">
@@ -81,13 +87,11 @@
       </tr>
     </tbody>
 
-
-
     <form v-on:submit.prevent="loadMovieRecs()">
       <button type="submit">See Movie Recs Based on Favorite Movie</button>
     </form>
 
-  <!--show all movies in table-->
+    <!--show all movies in table-->
     <tbody>
       <tr v-for="movie in movies" v-bind:key="movie.id">
         <td>my movie:</td>
@@ -100,10 +104,6 @@
         <!--to see the photo att to img path: https://www.themoviedb.org/t/p/w600_and_h900_bestv2/-->
       </tr>
     </tbody>
-
-
-
-
   </div>
 </template>
 
@@ -130,27 +130,29 @@ export default {
     };
   },
   methods: {
-
-    addToFavorites(){
-      let userPlusCurrentMovieId = {userId: this.$store.state.user.id, movieId: this.movies[this.currentMovieIndex].id};
-      movieService
-      .addFavorite(userPlusCurrentMovieId)
-      .then((response) =>{
-        this.$store.commit("SET_FAVORITES", response.data)
+    addToFavorites() {
+      let userPlusCurrentMovieId = {
+        userId: this.$store.state.user.id,
+        movieId: this.movies[this.currentMovieIndex].id,
+      };
+      movieService.addFavorite(userPlusCurrentMovieId).then((response) => {
+        this.$store.commit("SET_FAVORITES", response.data);
       });
       this.$alert("Favorites Updated!");
     },
 
-    updateCurrentMovie(){
-      if(this.currentMovieIndex < this.movies.length - 1){
-          this.currentMovieIndex++;
-      }
-      else{
+    updateCurrentMovie() {
+      if (this.currentMovieIndex < this.movies.length - 1) {
+        this.currentMovieIndex++;
+      } else {
         this.currentMovieIndex = 0;
       }
     },
     addGenre() {
-      let userAndGenresToAdd = { userId: this.$store.state.user.id, genres: this.genres };
+      let userAndGenresToAdd = {
+        userId: this.$store.state.user.id,
+        genres: this.genres,
+      };
       movieService
         .addGenre(userAndGenresToAdd) //this calls movie service in the back-end
         //response
@@ -182,14 +184,13 @@ export default {
     },
   },
   computed: {
-    currentMovie(){
-      if(this.movies.length < 1){
-                        return "Click Next To Swipe";
-      }
-      else{
+    currentMovie() {
+      if (this.movies.length < 1) {
+        return "Click Next To Swipe";
+      } else {
         return this.movies[this.currentMovieIndex];
       }
-    }
+    },
   },
 };
 </script>
@@ -211,6 +212,7 @@ export default {
   flex-direction: column;
   flex-basis: 75%;
   align-content: center;
+  align-items: center;
 }
 h1 {
   font-family: fantasy;
@@ -295,7 +297,7 @@ h2 {
   background: url(../img/abhore-ticket.jpg) center / cover no-repeat;
   width: 50%;
   height: 25%;
-  margin: 5px;
+
   border-radius: 5px;
   font-family: fantasy;
   border: 2px solid red;
@@ -306,7 +308,7 @@ h2 {
   background: url(../img/adore-ticket.jpg) center / cover no-repeat;
   width: 50%;
   height: 25%;
-  margin: 5px;
+
   border-radius: 5px;
   font-family: fantasy;
   border: 2px solid green;
