@@ -47,79 +47,86 @@
         </form>
       </section>
       <section id="right-panel">
-        <h1>Browse Movie</h1> 
+        <h1>Browse Movie</h1>
         <button
-            id="swiping-button"
-            v-if="this.movies.length < 1"
-            v-on:click="loadMoviesByGenre()"
-          >
-            Start Swiping Movies In Your Recommended Genres
-          </button>
-<<<<<<< HEAD
-          <tbody id="movie-table" v-if="this.movies.length > 0">
-=======
-        <div id="right-panel-middle-row"  v-if="this.movies.length > 0">
-          <button id="abhore-button">Abhore</button>
-         
-          <tbody v-if="this.movies.length > 0">
->>>>>>> ae3f33ea044cfd1c2053a1a723e7fa160f599895
-            <tr>
-              <div id="poster-flex-box">
-                <img
-                  :src="
-                    `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` +
-                    currentMovie.poster_path
-                  "
-                  v-if="this.movies.length > 0"
-                  id="movie-poster"
-                />
+          id="swiping-button"
+          v-if="this.movies.length < 1"
+          v-on:click="loadMoviesByGenre()"
+        >
+          Start Swiping Movies In Your Recommended Genres
+        </button>
+        <section id="movie-table" v-if="this.movies.length > 0">
+          <div id="right-panel-middle-row" v-if="this.movies.length > 0">
+            <button id="abhore-button">Abhore</button>
+            <tbody v-if="this.movies.length > 0">
+              <tr>
+                <div id="poster-flex-box">
+                  <img
+                    :src="
+                      `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` +
+                      currentMovie.poster_path
+                    "
+                    v-if="this.movies.length > 0"
+                    id="movie-poster"
+                  />
+                </div>
+              </tr>
+              <br />
+              <tr></tr>
+              <div id="overview-box">
+                <tr>
+                  <td>Genre: {{ currentMovie.genre_ids }}</td>
+                </tr>
+                <tr>
+                  <td>Overview: {{ currentMovie.overview }}</td>
+                </tr>
+                <tr>
+                  <td>Release Date: {{ currentMovie.release_date }}</td>
+                </tr>
               </div>
-            </tr>
-            <br />
-            <tr></tr>
-            <div id="overview-box">
-              <tr>
-                <td>Genre: {{ currentMovie.genre_ids }}</td>
-              </tr>
-              <tr>
-                <td>Overview: {{ currentMovie.overview }}</td>
-              </tr>
-              <tr>
-                <td>Release Date: {{ currentMovie.release_date }}</td>
-              </tr>
-            </div>
-          </tbody>
-          <button
-            id="adore-button"
-            v-on:click="
-              addToFavorites();
-              updateCurrentMovie();
-            ">
-            Adore
-          </button>
-        </div>
+            </tbody>
 
-        <!--show one movie at a time in table-->
+            <button
+              id="adore-button"
+              v-on:click="
+                addToFavorites();
+                updateCurrentMovie();
+              "
+            >
+              Adore
+            </button>
+          </div>
 
-        <br />
-        <br />
-        <div id="right-panel-row-button">
-          <button id="previous-button">Previous</button>
-          <button id="watchlist-button"  v-on:click="addToWatchlist()">Add To Watchlist</button>
-          <button id="next-button" v-on:click="updateCurrentMovie()">
-            Next
-          </button>
-        </div>
+          <!--show one movie at a time in table-->
+
+          <br />
+          <br />
+          <div id="right-panel-row-button">
+            <button id="previous-button">Previous</button>
+            <button id="watchlist-button" v-on:click="addToWatchlist()">
+              Add To Watchlist
+            </button>
+            <button id="next-button" v-on:click="updateCurrentMovie()">
+              Next
+            </button>
+          </div>
+        </section>
       </section>
     </div>
 
-<<<<<<< HEAD
-=======
     <tbody>
       <!--$store.state.genres-->
       <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
         <td>{{ genre.genreName }}</td>
-        <td>  <button id="deleteGenre" class="delete-btn" v-on:click="deleteGenre(genre.id)">X</button></td>
+        <td>
+          <button
+            id="deleteGenre"
+            class="delete-btn"
+            v-on:click="deleteGenre(genre.id)"
+          >
+            X
+          </button>
+        </td>
       </tr>
     </tbody>
 
@@ -127,7 +134,6 @@
       <button type="submit">See Movie Recs Based on Favorite Movie</button>
     </form>
 
->>>>>>> ae3f33ea044cfd1c2053a1a723e7fa160f599895
     <!--show all movies in table
     <tbody>
       <tr v-for="movie in movies" v-bind:key="movie.id">
@@ -177,7 +183,7 @@ export default {
     });
   },
   methods: {
-    deleteGenre(genreId){
+    deleteGenre(genreId) {
       let userAndGenresToDelete = {
         userId: this.$store.state.user.id,
         genreId: genreId,
@@ -186,16 +192,14 @@ export default {
         .deleteGenre(userAndGenresToDelete) //this calls movie service in the back-end
         //response
         .then((response) => {
-          if(response.data == true){
+          if (response.data == true) {
             this.$alert("Delete Worked!");
-          }
-          else{
+          } else {
             this.$alert("Delete No Work!");
           }
         });
-
     },
-    addToWatchlist(){
+    addToWatchlist() {
       let userPlusCurrentMovieId = {
         userId: this.$store.state.user.id,
         movieId: this.movies[this.currentMovieIndex].id,
@@ -411,7 +415,8 @@ h2 {
   font-size: 200%;
 }
 
-#previous-button, #watchlist-button {
+#previous-button,
+#watchlist-button {
   height: 40px;
   width: 20%;
   font-size: 120%;
