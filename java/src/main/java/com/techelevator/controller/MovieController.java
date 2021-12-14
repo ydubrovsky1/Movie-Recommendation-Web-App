@@ -43,10 +43,10 @@ public class MovieController {
     }
 
 
-//    @RequestMapping(path = "/genre", method = RequestMethod.DELETE)
-//    public boolean deleteGenre(@RequestBody @Valid UserGenre userGenre) {
-//        return genreDao.deleteGenreFromUser(userGenre.getUserId(),userGenre.getGenreId());
-//    }
+   @RequestMapping(path = "/genre/{userId}/{genreId}", method = RequestMethod.DELETE)
+   public boolean deleteGenre(@PathVariable int userId, @PathVariable int genreId ) {
+        return genreDao.deleteGenreFromUser(userId,genreId);
+    }
 
     @RequestMapping(path = "/movie/{id}", method = RequestMethod.GET)
     public Movie getMovieById(@PathVariable int id) throws SQLException {

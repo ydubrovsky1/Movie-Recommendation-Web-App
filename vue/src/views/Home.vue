@@ -33,16 +33,17 @@
         </form>
       </section>
       <section id="right-panel">
-        <h1>Browse Movie</h1>
-        <div id="right-panel-middle-row">
-          <button id="abhore-button">Abhore</button>
-          <button
+        <h1>Browse Movie</h1> 
+        <button
             id="swiping-button"
             v-if="this.movies.length < 1"
             v-on:click="loadMoviesByGenre()"
           >
             Start Swiping Movies In Your Recommended Genres
           </button>
+        <div id="right-panel-middle-row"  v-if="this.movies.length > 0">
+          <button id="abhore-button">Abhore</button>
+         
           <tbody v-if="this.movies.length > 0">
             <tr>
               <div id="poster-flex-box">
@@ -74,8 +75,7 @@
             v-on:click="
               addToFavorites();
               updateCurrentMovie();
-            "
-          >
+            ">
             Adore
           </button>
         </div>
@@ -86,7 +86,7 @@
         <br />
         <div id="right-panel-row-button">
           <button id="previous-button">Previous</button>
-          <!--<button id="favorites-button">Add To Favorites</button>-->
+          <button id="watchlist-button"  v-on:click="addToWatchlist()">Add To Watchlist</button>
           <button id="next-button" v-on:click="updateCurrentMovie()">
             Next
           </button>
@@ -98,6 +98,7 @@
       <!--$store.state.genres-->
       <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
         <td>{{ genre.genreName }}</td>
+        <td>  <button id="deleteGenre" class="delete-btn" v-on:click="deleteGenre(genre.id)">X</button></td>
       </tr>
     </tbody>
 
@@ -154,6 +155,34 @@ export default {
     });
   },
   methods: {
+    deleteGenre(genreId){
+      let userAndGenresToDelete = {
+        userId: this.$store.state.user.id,
+        genreId: genreId,
+      };
+      movieService
+        .deleteGenre(userAndGenresToDelete) //this calls movie service in the back-end
+        //response
+        .then((response) => {
+          if(response.data == true){
+            this.$alert("Delete Worked!");
+          }
+          else{
+            this.$alert("Delete No Work!");
+          }
+        });
+
+    },
+    addToWatchlist(){
+      let userPlusCurrentMovieId = {
+        userId: this.$store.state.user.id,
+        movieId: this.movies[this.currentMovieIndex].id,
+      };
+      movieService.addToWatchlist(userPlusCurrentMovieId).then((response) => {
+        this.$store.commit("SET_WATCHLIST", response.data);
+      });
+      this.$alert("Favorites Updated!");
+    },
     containsGenre(genreId) {
       for (let i = 0; i < this.$store.state.genres.length; i++) {
         if (this.$store.state.genres[i].id == genreId) {
@@ -357,7 +386,7 @@ h2 {
   font-size: 200%;
 }
 
-#previous-button {
+#previous-button, #watchlist-button {
   height: 40px;
   width: 20%;
   font-size: 120%;
