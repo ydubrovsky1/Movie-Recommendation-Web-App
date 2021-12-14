@@ -12,16 +12,26 @@ Vue.use(Vuex)
 const currentToken = localStorage.getItem('token')
 const currentUser = JSON.parse(localStorage.getItem('user'));
 
-if(currentToken != null) {
+if (currentToken != null) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${currentToken}`;
 }
+
+export const store = Vue.observable({
+  isNavOpen: false
+});
+
+export const mutations = {
+  toggleNav() {
+    store.isNavOpen = !store.isNavOpen
+  }
+};
 
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    genres: [{"id": 12, "genreName": "Adventure"}],
-    customUser: {"user": currentUser, "genres": []},
+    genres: [{ "id": 12, "genreName": "Adventure" }],
+    customUser: { "user": currentUser, "genres": [] },
     favorites: []
   },
   mutations: {
@@ -32,7 +42,7 @@ export default new Vuex.Store({
     },
     SET_USER(state, user) {
       state.user = user;
-      localStorage.setItem('user',JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
     },
     LOGOUT(state) {
       localStorage.removeItem('token');
@@ -46,7 +56,7 @@ export default new Vuex.Store({
       state.genres = data;
     },
 
-    SET_FAVORITES(state, data){
+    SET_FAVORITES(state, data) {
       state.favorites.push(data);
     }
 
