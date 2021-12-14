@@ -13,6 +13,12 @@ export default {
 
     getGenres(userAndGenresToAdd){
         return axios.post('/getGenres', userAndGenresToAdd)
+    },
+    addToWatchlist(userPlusCurrentMovieId){
+        return axios.post('/addToWatchlist', userPlusCurrentMovieId)
+    },
+    deleteGenre(userId, genreId){
+        return axios.delete(`/genre/${userId}/${genreId}`)
     }
 
 
