@@ -6,7 +6,7 @@ import java.util.List;
 public class UserGenre {
 
     private int userId;
-    //private int genreId;
+    private int genreId;
     private List<String> genreIds;
 
     /*
@@ -37,9 +37,9 @@ public class UserGenre {
         this.userId = userId;
     }
 
-//  public int getGenreId() {
-//        return genreId;
-//    }
+  public int getGenreId() {
+       return genreId;
+    }
 //
 //    public void setGenreId(int genreId) {
 //        this.genreId = genreId;
