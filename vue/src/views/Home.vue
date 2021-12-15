@@ -164,6 +164,7 @@ export default {
     };
   },
   beforeMount() {
+    //get the updated genres into store
     let userAndGenresToAdd = {
       userId: this.$store.state.user.id,
       genreIds: [],
@@ -171,6 +172,20 @@ export default {
     movieService.getGenres(userAndGenresToAdd).then((response) => {
       this.$store.commit("SET_GENRES", response.data);
     });
+    //get the updated movies into faves in store
+    let userPlusCurrentMovieId = {
+        userId: this.$store.state.user.id,
+        movieId: 0,
+    };
+    movieService.getFavorites(userPlusCurrentMovieId).then((response) =>{
+      for(let i=0; i < response.data.length; i++){
+        apiMovieService.getMovieById((response.data[i]).id).then((response) =>{
+          this.$store.commit("SET_FAVORITES", response.data); 
+        });
+      }
+    });
+
+
   },
   methods: {
     deleteGenre(genreId) {

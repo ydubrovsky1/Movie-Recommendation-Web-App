@@ -19,7 +19,11 @@ export default {
     },
     deleteGenre(userId, genreId){
         return axios.delete(`/genre/${userId}/${genreId}`)
+    },
+    getFavorites(userPlusCurrentMovieId){
+        return axios.post('/getFavorites', userPlusCurrentMovieId);
     }
+
 
 
   
