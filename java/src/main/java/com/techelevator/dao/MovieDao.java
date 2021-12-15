@@ -18,4 +18,8 @@ public interface MovieDao {
 
     boolean addMovieToFavorites(int movieId, int userId);
     List<Movie> getFavoriteMoviesByUser(int userId);
+
+    public boolean addMovieToAbhorred(int movieId, int userId);
+
+    public boolean checkIfInAbhorred(int userId, int movieId);
 }

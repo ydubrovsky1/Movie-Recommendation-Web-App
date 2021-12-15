@@ -83,4 +83,30 @@ public class MovieController {
         return genreDao.getGenresByUser(userGenre.getUserId());
     }
 
+
+    @RequestMapping(path = "/addAbhorred", method = RequestMethod.POST) //add abhorred movies
+    public boolean addAbhorredMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
+        //if already in faves return false
+        if(movieDao.checkIfInAbhorred(userMovie.getUserId(), userMovie.getMovieId())){
+            return false;
+        }
+        //if movie already in movies, just save userId+movieId to faves
+        if(movieDao.findMovieById(userMovie.getMovieId()) != null){
+            return movieDao.addMovieToAbhorred(userMovie.getMovieId(), userMovie.getUserId());
+        }
+
+        Movie movie = movieService.getMovie(userMovie.getMovieId());
+        if(movie != null){
+            movieDao.saveMovie(movie);
+        }
+        return movieDao.addMovieToAbhorred(userMovie.getMovieId(), userMovie.getUserId());
+
+    }
+
+
+
+
+
+
+
 }
