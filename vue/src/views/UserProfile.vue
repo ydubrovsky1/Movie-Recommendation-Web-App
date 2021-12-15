@@ -8,15 +8,23 @@
     <body>
       <p>Below here you can find a list of the movies you have favorited</p>
       <main>
-        <tbody>
-          <tr v-for="movie in $store.state.movies" v-bind:key="movie.id">
-            <td>my movie:</td>
-            <td>{{ movie.id }}</td>
-            <td>{{ movie.original_title }}</td>
-            <td>{{ movie.genre_ids }}</td>
-            <td>{{ movie.overview }}</td>
-            <td>{{ movie.release_date }}</td>
-            <td>{{ movie.poster_path }}</td>
+        <tbody id="favorite-list">
+          <tr
+            v-for="favorite in $store.state.favorites"
+            v-bind:key="favorite.id"
+          >
+            <td>
+              <img
+                :src="
+                  `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` +
+                  favorite.poster_path
+                "
+              />
+            </td>
+            <td>Movie title: {{ favorite.original_title }}</td>
+            <td>Genre: {{ favorite.genre_ids }}</td>
+            <td>Movie Overview: {{ favorite.overview }}</td>
+            <td>Release Date: {{ favorite.release_date }}</td>
           </tr>
         </tbody>
       </main>
@@ -33,7 +41,7 @@ export default {
   },
   data() {
     return {
-      movies: [],
+      favorites: [],
     };
   },
 };
@@ -46,5 +54,13 @@ h1 {
   text-align: center;
   text-shadow: 10px 10px 10px orange;
   font-size: 300%;
+}
+p {
+  font-family: fantasy;
+  text-align: center;
+}
+
+#favorite-list {
+  display: flex;
 }
 </style>
