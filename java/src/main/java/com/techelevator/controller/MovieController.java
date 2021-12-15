@@ -53,6 +53,7 @@ public class MovieController {
         return movieDao.findMovieById(id);
     }
 
+<<<<<<< HEAD
     @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
     public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
         if(checkIfInFavorites(userMovie.getUserId(), userMovie.getMovieId())){
@@ -68,6 +69,26 @@ public class MovieController {
         }
         return movieDao.findMovieById(userMovie.getMovieId());
     }
+=======
+   @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
+    public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
+        //if already in faves return false
+        if(movieDao.checkIfInFavorites(userMovie.getUserId(), userMovie.getMovieId())){
+            return false;
+       }
+        //if movie already in movies, just save userId+movieId to faves
+       if(movieDao.findMovieById(userMovie.getMovieId()) != null){
+           return movieDao.addMovieToFavorites(userMovie.getMovieId(), userMovie.getUserId());
+       }
+
+        Movie movie = movieService.getMovie(userMovie.getMovieId());
+        if(movie != null){
+           movieDao.saveMovie(movie);
+      }
+       return movieDao.addMovieToFavorites(userMovie.getMovieId(), userMovie.getUserId());
+
+   }
+>>>>>>> 2ce8393ec950ff3fe095421680771443c1c85a23
 
     @RequestMapping(path = "/getGenres", method = RequestMethod.POST)
     public List<Genre> getGenres(@RequestBody UserGenre userGenre) {

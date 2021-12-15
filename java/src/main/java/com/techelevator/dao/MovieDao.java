@@ -12,4 +12,8 @@ public interface MovieDao {
     Movie mapRowToMovie(SqlRowSet rs);
 
     boolean saveMovie(Movie movie) throws SQLException;
+
+    boolean checkIfInFavorites(int userId, int movieId);
+
+    boolean addMovieToFavorites(int movieId, int userId);
 }
