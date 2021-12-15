@@ -64,6 +64,20 @@ public class JdbcMovieDao implements MovieDao {
         return null;
     }
 
+    public List<Movie> getFavoriteMoviesByUser(int userId){
+        List<Movie> movies = new ArrayList<>();
+        String sql="SELECT m.movie_id, m.title, " +
+                "m.overview, m.release_date, m.rating " +
+                "FROM movies m JOIN favorites f ON m.movie_id = f.movie_id "+
+                "JOIN users u ON f.user_id = u.user_id "+
+                "WHERE u.user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        while (results.next()) {
+            movies.add(mapRowToMovie(results));
+        }
+        return movies;
+    }
+
     public boolean checkIfInFavorites(int userId, int movieId){
         String sql = "SELECT * FROM favorites WHERE user_id = ? AND movie_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, movieId);
@@ -74,6 +88,30 @@ public class JdbcMovieDao implements MovieDao {
             return false;
         }
     }
+
+    public boolean addMovieToFavorites(int movieId, int userId){
+        String sql = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?);";
+        return jdbcTemplate.update(sql, userId, movieId) == 1;
+    }
+
+    public boolean checkIfInAbhorred(int userId, int movieId){
+        String sql = "SELECT * FROM abhorred WHERE user_id = ? AND movie_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, movieId);
+        if(results.next()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean addMovieToAbhorred(int movieId, int userId){
+        String sql = "INSERT INTO abhorred (user_id, movie_id) VALUES (?, ?);";
+        return jdbcTemplate.update(sql, userId, movieId) == 1;
+    }
+
+
+
 
 
 //    public Movie findMovieById(int movieId) throws SQLException {
@@ -136,10 +174,9 @@ public class JdbcMovieDao implements MovieDao {
         return true;
     }
 
-    public boolean addMovieToFavorites(int movieId, int userId){
-        String sql = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?);";
-        return jdbcTemplate.update(sql, userId, movieId) == 1;
-    }
+
+
+
 
     public boolean addMovieToWatchList(Movie movie, int userId){
         String sql = "INSERT INTO watch_list (user_id, movie_id) VALUES (?, ?);";
