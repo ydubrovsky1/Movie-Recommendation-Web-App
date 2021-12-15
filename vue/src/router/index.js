@@ -6,7 +6,8 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
 import MoviesByGenre from '../views/MoviesByGenre.vue'
-
+import UserProfile from '../views/UserProfile.vue'
+import WatchList from '../views/Watchlist.vue'
 Vue.use(Router)
 
 /**
@@ -56,14 +57,35 @@ const router = new Router({
     },
 
     {
-      path:"/moviesByGenre",
+      path: "/moviesByGenre",
       name: "moviesByGenre",
       component: MoviesByGenre,
-      meta:{
+      meta: {
         requiresAuth: true
       }
 
-    }
+    },
+
+    {
+      path: "/userProfile",
+      name: "userProfile",
+      component: UserProfile,
+      meta: {
+        requiresAuth: true
+      }
+
+    },
+
+    {
+      path: "/watchList",
+      name: "watchList",
+      component: WatchList,
+      meta: {
+        requiresAuth: true
+      }
+
+    },
+
 
   ]
 })

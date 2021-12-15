@@ -39,13 +39,13 @@ public class MovieController {
 
     @RequestMapping(path = "/genre", method = RequestMethod.POST)
     public List<Genre> updateGenres(@RequestBody @Valid UserGenre userGenre) {
-        return genreDao.save(userGenre.getUserId(), userGenre.getGenreIds());
+        return genreDao.save(userGenre.getUserId(), userGenre.getGenreIdsFromStrings());
     }
 
 
-    @RequestMapping(path = "/genre", method = RequestMethod.DELETE)
-    public boolean deleteGenre(@RequestBody @Valid UserGenre userGenre) {
-        return genreDao.deleteGenreFromUser(userGenre.getUserId(),userGenre.getGenreId());
+   @RequestMapping(path = "/genre/{userId}/{genreId}", method = RequestMethod.DELETE)
+   public boolean deleteGenre(@PathVariable int userId, @PathVariable int genreId ) {
+        return genreDao.deleteGenreFromUser(userId,genreId);
     }
 
     @RequestMapping(path = "/movie/{id}", method = RequestMethod.GET)
@@ -62,6 +62,9 @@ public class MovieController {
         return movieDao.findMovieById(userMovie.getMovieId());
     }
 
-
+    @RequestMapping(path = "/getGenres", method = RequestMethod.POST)
+    public List<Genre> getGenres(@RequestBody UserGenre userGenre) {
+        return genreDao.getGenresByUser(userGenre.getUserId());
+    }
 
 }

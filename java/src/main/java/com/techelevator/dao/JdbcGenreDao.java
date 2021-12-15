@@ -24,10 +24,14 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> save(int userId, List<Integer> genreIds) {
         List<Genre> passedGenres = mapIntegerToGenres(genreIds);
         List<Genre> myGenres = getGenresByUser(userId);
+        List<Integer> myGenresIds = new ArrayList<>();
+        for(Genre genre : myGenres){
+            myGenresIds.add(genre.getId());
+        }
         List<Genre> saveList = new ArrayList<>();
 
         for (Genre passedGenre : passedGenres) {
-            if (!myGenres.contains(passedGenre)) { //if its not in the my genres list, add it
+            if (!myGenresIds.contains(passedGenre.getId())) { //if its not in the my genres list, add it
                 saveList.add(passedGenre);
             }
         }
@@ -38,7 +42,7 @@ public class JdbcGenreDao implements GenreDao {
             jdbcTemplate.update(sql, userId, genre.getId());
         }
 
-
+        myGenres = getGenresByUser(userId);
         return myGenres;
     }
 
@@ -46,7 +50,7 @@ public class JdbcGenreDao implements GenreDao {
     public List<Genre> getGenresByUser(int userId) {
         List<Genre> myGenres = new ArrayList<>();
         //TODO: ADJUST THE QUERIES ONCE HAVE TAbles
-        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN user_to_genres ug WHERE userId = ?";
+        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN genres_users gu ON g.genre_id = gu.genre_id WHERE gu.user_id = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while(results.next()) {
@@ -59,7 +63,7 @@ public class JdbcGenreDao implements GenreDao {
     public Genre getGenreByUser(int userId, int genreId) {
         Genre genre = new Genre();
 
-        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN user_genres ug WHERE userId = ? AND g.genre_id = ?;";
+        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN genres_users gu ON g.genre_id = gu.genre_id WHERE gu.user_id = ? AND gu.genre_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
@@ -71,7 +75,7 @@ public class JdbcGenreDao implements GenreDao {
 
     public boolean deleteGenreFromUser(int userId, int genreId) {
 
-        if (getGenreByUser(userId, genreId) != null) {
+        if (getGenresByUser(userId).size() < 1) {
             return false;
         }
 
@@ -83,7 +87,7 @@ public class JdbcGenreDao implements GenreDao {
 
     private Genre mapRowToGenre(SqlRowSet rs) {
         Genre genre = new Genre();
-        genre.setId(rs.getInt("id"));
+        genre.setId(rs.getInt("genre_id"));
         return genre;
     }
 
