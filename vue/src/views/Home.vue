@@ -11,10 +11,16 @@
             v-for="genre in $store.state.genres"
             v-bind:key="genre.id"
           >
-            <td id="selected-genres">{{ genre.genreName }}</td>
+            <td>
+              {{ genre.genreName }}
+            </td>
+
+            <td>
+              <button v-on:click="deleteGenre(genre.id)">X</button>
+            </td>
           </tr>
-          <br />
         </tbody>
+
         <form v-on:submit.prevent="loadMovieRecs()">
           <button id="rec-movie" type="submit">
             See Movie Recs Based on Favorite Movie
@@ -117,26 +123,6 @@
       </section>
     </div>
 
-    <tbody>
-      <!--$store.state.genres-->
-      <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
-        <td>{{ genre.genreName }}</td>
-        <td>
-          <button
-            id="deleteGenre"
-            class="delete-btn"
-            v-on:click="deleteGenre(genre.id)"
-          >
-            X
-          </button>
-        </td>
-      </tr>
-    </tbody>
-
-    <form v-on:submit.prevent="loadMovieRecs()">
-      <button type="submit">See Movie Recs Based on Favorite Movie</button>
-    </form>
-
     <!--show all movies in table
     <tbody>
       <tr v-for="movie in movies" v-bind:key="movie.id">
@@ -194,13 +180,13 @@ export default {
         .then((response) => {
           if (response.data == true) {
             this.$alert("Delete Worked!");
-                      let userAndGenresToAdd = {
-                        userId: this.$store.state.user.id,
-                        genreIds: [],
-                      };
-                      movieService.getGenres(userAndGenresToAdd).then((response) => {
-                      this.$store.commit("SET_GENRES", response.data);
-                    });
+            let userAndGenresToAdd = {
+              userId: this.$store.state.user.id,
+              genreIds: [],
+            };
+            movieService.getGenres(userAndGenresToAdd).then((response) => {
+              this.$store.commit("SET_GENRES", response.data);
+            });
           } else {
             this.$alert("Delete No Work!");
           }
@@ -234,7 +220,7 @@ export default {
       */
     },
     addToFavorites() {
-      this.$store.commit("SET_FAVORITES",  this.movies[this.currentMovieIndex]);
+      this.$store.commit("SET_FAVORITES", this.movies[this.currentMovieIndex]);
 
       let userPlusCurrentMovieId = {
         userId: this.$store.state.user.id,
@@ -358,7 +344,7 @@ h2 {
   justify-content: center;
 }
 #genres {
-  height: 90vh;
+  height: 50vh;
   width: 120%;
   font-size: 175%;
   border-radius: 10px;
@@ -531,7 +517,7 @@ h2 {
   text-decoration: underline;
   align-content: center;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   margin: 0px 0px;
 
   border: 2px solid green;
@@ -567,6 +553,13 @@ h2 {
   #right-panel {
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  #delete-genre {
+    font-size: 500%;
+    border: black;
+    background: pink;
+    color: red;
   }
 }
 </style>
