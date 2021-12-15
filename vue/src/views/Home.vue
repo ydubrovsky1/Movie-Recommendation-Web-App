@@ -187,16 +187,20 @@ export default {
   },
   methods: {
     deleteGenre(genreId) {
-      let userAndGenresToDelete = {
-        userId: this.$store.state.user.id,
-        genreId: genreId,
-      };
+      let userId = this.$store.state.user.id;
       movieService
-        .deleteGenre(userAndGenresToDelete) //this calls movie service in the back-end
+        .deleteGenre(userId, genreId) //this calls movie service in the back-end
         //response
         .then((response) => {
           if (response.data == true) {
             this.$alert("Delete Worked!");
+                      let userAndGenresToAdd = {
+                        userId: this.$store.state.user.id,
+                        genreIds: [],
+                      };
+                      movieService.getGenres(userAndGenresToAdd).then((response) => {
+                      this.$store.commit("SET_GENRES", response.data);
+                    });
           } else {
             this.$alert("Delete No Work!");
           }
