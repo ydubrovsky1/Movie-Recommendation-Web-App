@@ -234,16 +234,21 @@ export default {
       */
     },
     addToFavorites() {
-      this.$store.commit("SET_FAVORITES",  this.movies[this.currentMovieIndex]);
 
       let userPlusCurrentMovieId = {
         userId: this.$store.state.user.id,
         movieId: this.movies[this.currentMovieIndex].id,
       };
       movieService.addFavorite(userPlusCurrentMovieId).then((response) => {
-        this.$store.commit("SET_FAVORITES", response.data);
+        if (response.data == true){
+          this.$store.commit("SET_FAVORITES",  this.movies[this.currentMovieIndex]);
+          this.$alert("Favorites Updated!");
+        }
+        else{
+          this.$alert("Already In Favorites!");
+        }
       });
-      this.$alert("Favorites Updated!");
+      
     },
 
     updateCurrentMovie() {
