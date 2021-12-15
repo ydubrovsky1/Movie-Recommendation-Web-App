@@ -11,11 +11,14 @@
             v-for="genre in $store.state.genres"
             v-bind:key="genre.id"
           >
-            <td>{{ genre.genreName }}</td>
+            <td id="selected-genres">{{ genre.genreName }}</td>
           </tr>
+          <br />
         </tbody>
         <form v-on:submit.prevent="loadMovieRecs()">
-          <button type="submit">See Movie Recs Based on Favorite Movie</button>
+          <button id="rec-movie" type="submit">
+            See Movie Recs Based on Favorite Movie
+          </button>
         </form>
         <h2 id="genre-choice">Add Genres:</h2>
         <form id="genre-dropdown" v-on:submit.prevent="addGenre">
@@ -48,13 +51,15 @@
       </section>
       <section id="right-panel">
         <h1>Browse Movie</h1>
-        <button
-          id="swiping-button"
-          v-if="this.movies.length < 1"
-          v-on:click="loadMoviesByGenre()"
-        >
-          Start Swiping Movies In Your Recommended Genres
-        </button>
+        <div id="swipe-box">
+          <button
+            id="swiping-button"
+            v-if="this.movies.length < 1"
+            v-on:click="loadMoviesByGenre()"
+          >
+            Start Swiping Movies In Your Recommended Genres
+          </button>
+        </div>
         <section id="movie-table" v-if="this.movies.length > 0">
           <div id="right-panel-middle-row" v-if="this.movies.length > 0">
             <button id="abhore-button">Abhore</button>
@@ -72,13 +77,23 @@
                 </div>
               </tr>
               <br />
-              <tr></tr>
+              <div id="right-panel-row-button">
+                <button id="previous-button">Previous</button>
+                <button id="watchlist-button" v-on:click="addToWatchlist()">
+                  Add To Watchlist
+                </button>
+                <button id="next-button" v-on:click="updateCurrentMovie()">
+                  Next
+                </button>
+              </div>
+
+              <br />
               <div id="overview-box">
                 <tr>
                   <td>Genre: {{ currentMovie.genre_ids }}</td>
                 </tr>
                 <tr>
-                  <td>Overview: {{ currentMovie.overview }}</td>
+                  <td id="movie-desc">Overview: {{ currentMovie.overview }}</td>
                 </tr>
                 <tr>
                   <td>Release Date: {{ currentMovie.release_date }}</td>
@@ -98,18 +113,6 @@
           </div>
 
           <!--show one movie at a time in table-->
-
-          <br />
-          <br />
-          <div id="right-panel-row-button">
-            <button id="previous-button">Previous</button>
-            <button id="watchlist-button" v-on:click="addToWatchlist()">
-              Add To Watchlist
-            </button>
-            <button id="next-button" v-on:click="updateCurrentMovie()">
-              Next
-            </button>
-          </div>
         </section>
       </section>
     </div>
@@ -486,10 +489,14 @@ h2 {
   max-width: 100%;
   flex-grow: inherit;
 }
+#swipe-box {
+  display: flex;
+  justify-content: center;
+}
 
 #swiping-button {
   height: 55px;
-  width: 55%;
+  width: 30%;
   font-size: 120%;
   border-radius: 10px;
   font-family: fantasy;
@@ -504,5 +511,60 @@ h2 {
 
 #movie-table {
   text-align: center;
+}
+
+#movie-desc {
+  width: 800px;
+  height: 150px;
+}
+
+#selected-genres {
+  width: 125%;
+  font-size: 120%;
+  border-radius: 10px;
+  color: orange;
+  font-family: fantasy;
+  display: flex;
+  font-weight: ;
+  text-decoration: underline;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0px 0px;
+
+  border: 2px solid green;
+  border-radius: 4px;
+}
+
+#rec-movie {
+  height: 40px;
+  width: 100%;
+  font-size: 120%;
+  border-radius: 10px;
+  font-family: fantasy;
+  background: orange;
+  text-align: center;
+  color: black;
+  margin: 0px 40px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 450px) {
+  body header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #left-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #right-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 </style>
