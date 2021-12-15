@@ -64,6 +64,17 @@ public class JdbcMovieDao implements MovieDao {
         return null;
     }
 
+    public boolean checkIfInFavorites(int userId, int movieId){
+        String sql = "SELECT * FROM favorites WHERE user_id = ? AND movie_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, movieId);
+        if(results.next()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 //    public Movie findMovieById(int movieId) throws SQLException {
 //
@@ -104,30 +115,30 @@ public class JdbcMovieDao implements MovieDao {
                 movie.getRuntime(), movie.getDirector(), movie.getActors(), movie.getReleaseDate(),
                 movie.getRating(), movie.getCertification());
 
-        PreparedStatement pstmt = con.prepareStatement("INSERT INTO movies (genres) " +
-                "VALUES (?) WHERE movie_id = ?");
-
-        int[] array = new int[movie.getGenres().size()];
-
-        List<Genre> genreToArray = movie.getGenre();
-        for(int i =0; i < genreToArray.size(); i++) {
-            array[i] = genreToArray.get(i).getId();
-        }
-
-        Object[] values = Arrays.stream(array).mapToObj(i -> Integer.valueOf(i)).toArray();
-
-        Array arraySql = con.createArrayOf("int", values);
-        pstmt.setArray(1, arraySql);
-        pstmt.setInt(2, (int) movie.getMovieId());
-
-        pstmt.executeUpdate();
+//        PreparedStatement pstmt = con.prepareStatement("INSERT INTO movies (genres) " +
+//                "VALUES (?) WHERE movie_id = ?");
+//
+//        int[] array = new int[movie.getGenres().size()];
+//
+//        List<Genre> genreToArray = movie.getGenre();
+//        for(int i =0; i < genreToArray.size(); i++) {
+//            array[i] = genreToArray.get(i).getId();
+//        }
+//
+//        Object[] values = Arrays.stream(array).mapToObj(i -> Integer.valueOf(i)).toArray();
+//
+//        Array arraySql = con.createArrayOf("int", values);
+//        pstmt.setArray(1, arraySql);
+//        pstmt.setInt(2, (int) movie.getMovieId());
+//
+//        pstmt.executeUpdate();
 
         return true;
     }
 
-    public boolean addMovieToFavorites(Movie movie, int userId){
+    public boolean addMovieToFavorites(int movieId, int userId){
         String sql = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?);";
-        return jdbcTemplate.update(sql, userId, movie.getMovieId()) == 1;
+        return jdbcTemplate.update(sql, userId, movieId) == 1;
     }
 
     public boolean addMovieToWatchList(Movie movie, int userId){

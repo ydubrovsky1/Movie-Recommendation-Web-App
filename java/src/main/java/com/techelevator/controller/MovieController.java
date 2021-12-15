@@ -53,21 +53,24 @@ public class MovieController {
         return movieDao.findMovieById(id);
     }
 
-//    @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
-//    public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
-//        if(checkIfInFavorites(userMovie.getUserId(), userMovie.getMovieId())){
-//            return false;
-//        }
-//        Movie movie = movieService.getMovie(userMovie.getMovieId());
-//        if(movie == null){
-//            movieDao.saveMovie(movie);
-//        }
-////        Movie movie = movieService.getMovie(userMovie.getMovieId());
-////        if ((movieDao.findMovieById(userMovie.getMovieId()).getMovieId()) != userMovie.getMovieId()) {
-////            movieDao.saveMovie(movie);
-////        }
-//        return movieDao.findMovieById(userMovie.getMovieId());
-//    }
+   @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
+    public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
+        //if already in faves return false
+        if(movieDao.checkIfInFavorites(userMovie.getUserId(), userMovie.getMovieId())){
+            return false;
+       }
+        //if movie already in movies, just save userId+movieId to faves
+       if(movieDao.findMovieById(userMovie.getMovieId()) != null){
+           return movieDao.addMovieToFavorites(userMovie.getMovieId(), userMovie.getUserId());
+       }
+
+        Movie movie = movieService.getMovie(userMovie.getMovieId());
+        if(movie != null){
+           movieDao.saveMovie(movie);
+      }
+       return movieDao.addMovieToFavorites(userMovie.getMovieId(), userMovie.getUserId());
+
+   }
 
     @RequestMapping(path = "/getGenres", method = RequestMethod.POST)
     public List<Genre> getGenres(@RequestBody UserGenre userGenre) {
