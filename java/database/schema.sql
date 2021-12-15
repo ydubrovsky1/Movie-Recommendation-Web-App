@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS movies CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
 DROP TABLE IF EXISTS favorites CASCADE;
 DROP TABLE IF EXISTS genres_users CASCADE;
+DROP TABLE IF EXISTS watch_list;
 
 
 CREATE SEQUENCE seq_user_id
@@ -32,10 +33,10 @@ CREATE TABLE movies (
         runtime int NOT NULL,
         director varchar(100),
         actors varchar(100) array[5],
-        release_date date NOT NULL,
+        release_date varchar(20) NOT NULL,
         rating numeric,
         certification varchar(10),
-        genres int array[20] NOT NULL,--fk
+        genres int array[20],
         constraint pk_movies primary key(movie_id)
 );
 
@@ -62,6 +63,15 @@ CREATE TABLE favorites (
         constraint fk_favorites_users foreign key(user_id) references users(user_id),
         constraint fk_favorites_movies foreign key(movie_id) references movies(movie_id)
 );
+
+CREATE TABLE watch_list (
+        user_id int NOT NULL,
+        movie_id int NOT NULL,
+        --CONSTRAINT PK_user PRIMARY KEY (user_id)
+        constraint fk_watch_list_users foreign key(user_id) references users(user_id),
+        constraint fk_watch_list_movies foreign key(movie_id) references movies(movie_id)
+);
+
 
 INSERT INTO users (username,password_hash,user_age,above_17,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 18, true, 'ROLE_USER');
 INSERT INTO users (username,password_hash,user_age,above_17,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 18, true,'ROLE_ADMIN');

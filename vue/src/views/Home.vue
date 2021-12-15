@@ -11,11 +11,20 @@
             v-for="genre in $store.state.genres"
             v-bind:key="genre.id"
           >
-            <td>{{ genre.genreName }}</td>
+            <td>
+              {{ genre.genreName }}
+            </td>
+
+            <td>
+              <button v-on:click="deleteGenre(genre.id)">X</button>
+            </td>
           </tr>
         </tbody>
+
         <form v-on:submit.prevent="loadMovieRecs()">
-          <button type="submit">See Movie Recs Based on Favorite Movie</button>
+          <button id="rec-movie" type="submit">
+            See Movie Recs Based on Favorite Movie
+          </button>
         </form>
         <h2 id="genre-choice">Add Genres:</h2>
         <form id="genre-dropdown" v-on:submit.prevent="addGenre">
@@ -48,13 +57,15 @@
       </section>
       <section id="right-panel">
         <h1>Browse Movie</h1>
-        <button
-          id="swiping-button"
-          v-if="this.movies.length < 1"
-          v-on:click="loadMoviesByGenre()"
-        >
-          Start Swiping Movies In Your Recommended Genres
-        </button>
+        <div id="swipe-box">
+          <button
+            id="swiping-button"
+            v-if="this.movies.length < 1"
+            v-on:click="loadMoviesByGenre()"
+          >
+            Start Swiping Movies In Your Recommended Genres
+          </button>
+        </div>
         <section id="movie-table" v-if="this.movies.length > 0">
           <div id="right-panel-middle-row" v-if="this.movies.length > 0">
             <button id="abhore-button">Abhore</button>
@@ -72,7 +83,17 @@
                 </div>
               </tr>
               <br />
-              <tr></tr>
+              <div id="right-panel-row-button">
+                <button id="previous-button">Previous</button>
+                <button id="watchlist-button" v-on:click="addToWatchlist()">
+                  Add To Watchlist
+                </button>
+                <button id="next-button" v-on:click="updateCurrentMovie()">
+                  Next
+                </button>
+              </div>
+
+              <br />
               <div id="overview-box">
                 <tr>
                   <td>Genre: {{ currentMovie.genre_ids }}</td>
@@ -98,41 +119,9 @@
           </div>
 
           <!--show one movie at a time in table-->
-
-          <br />
-          <br />
-          <div id="right-panel-row-button">
-            <button id="previous-button">Previous</button>
-            <button id="watchlist-button" v-on:click="addToWatchlist()">
-              Add To Watchlist
-            </button>
-            <button id="next-button" v-on:click="updateCurrentMovie()">
-              Next
-            </button>
-          </div>
         </section>
       </section>
     </div>
-
-    <tbody>
-      <!--$store.state.genres-->
-      <tr v-for="genre in $store.state.genres" v-bind:key="genre.id">
-        <td>{{ genre.genreName }}</td>
-        <td>
-          <button
-            id="deleteGenre"
-            class="delete-btn"
-            v-on:click="deleteGenre(genre.id)"
-          >
-            X
-          </button>
-        </td>
-      </tr>
-    </tbody>
-
-    <form v-on:submit.prevent="loadMovieRecs()">
-      <button type="submit">See Movie Recs Based on Favorite Movie</button>
-    </form>
 
     <!--show all movies in table
     <tbody>
@@ -160,6 +149,7 @@ Vue.use(VueSimpleAlert);
 
 Vue.use(VueSimpleAlert);
 import Header from "./Header.vue";
+
 export default {
   name: "home",
   components: {
@@ -184,16 +174,20 @@ export default {
   },
   methods: {
     deleteGenre(genreId) {
-      let userAndGenresToDelete = {
-        userId: this.$store.state.user.id,
-        genreId: genreId,
-      };
+      let userId = this.$store.state.user.id;
       movieService
-        .deleteGenre(userAndGenresToDelete) //this calls movie service in the back-end
+        .deleteGenre(userId, genreId) //this calls movie service in the back-end
         //response
         .then((response) => {
           if (response.data == true) {
             this.$alert("Delete Worked!");
+            let userAndGenresToAdd = {
+              userId: this.$store.state.user.id,
+              genreIds: [],
+            };
+            movieService.getGenres(userAndGenresToAdd).then((response) => {
+              this.$store.commit("SET_GENRES", response.data);
+            });
           } else {
             this.$alert("Delete No Work!");
           }
@@ -227,14 +221,23 @@ export default {
       */
     },
     addToFavorites() {
+      this.$store.commit("SET_FAVORITES", this.movies[this.currentMovieIndex]);
+
       let userPlusCurrentMovieId = {
         userId: this.$store.state.user.id,
         movieId: this.movies[this.currentMovieIndex].id,
       };
       movieService.addFavorite(userPlusCurrentMovieId).then((response) => {
-        this.$store.commit("SET_FAVORITES", response.data);
+        if (response.data == true) {
+          this.$store.commit(
+            "SET_FAVORITES",
+            this.movies[this.currentMovieIndex]
+          );
+          this.$alert("Favorites Updated!");
+        } else {
+          this.$alert("Already In Favorites!");
+        }
       });
-      this.$alert("Favorites Updated!");
     },
 
     updateCurrentMovie() {
@@ -350,7 +353,7 @@ h2 {
   justify-content: center;
 }
 #genres {
-  height: 90vh;
+  height: 50vh;
   width: 120%;
   font-size: 175%;
   border-radius: 10px;
@@ -483,10 +486,14 @@ h2 {
   max-width: 100%;
   flex-grow: inherit;
 }
+#swipe-box {
+  display: flex;
+  justify-content: center;
+}
 
 #swiping-button {
   height: 55px;
-  width: 55%;
+  width: 30%;
   font-size: 120%;
   border-radius: 10px;
   font-family: fantasy;
@@ -505,5 +512,62 @@ h2 {
 #movie-desc {
   width: 800px;
   height: 150px;
+}
+
+#selected-genres {
+  width: 125%;
+  font-size: 120%;
+  border-radius: 10px;
+  color: orange;
+  font-family: fantasy;
+  display: flex;
+  font-weight: bold;
+  text-decoration: underline;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 0px;
+
+  border: 2px solid green;
+  border-radius: 4px;
+}
+
+#rec-movie {
+  height: 40px;
+  width: 100%;
+  font-size: 120%;
+  border-radius: 10px;
+  font-family: fantasy;
+  background: orange;
+  text-align: center;
+  color: black;
+  margin: 0px 40px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 450px) {
+  body header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #left-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #right-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #delete-genre {
+    font-size: 500%;
+    border: black;
+    background: pink;
+    color: red;
+  }
 }
 </style>

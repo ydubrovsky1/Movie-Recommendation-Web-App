@@ -8,7 +8,12 @@ import java.sql.SQLException;
 public interface MovieDao {
 
     Movie findMovieById(int movieId) throws SQLException;
-    Movie mapRowToMovie(SqlRowSet rs, Integer[] genres, String[] actors);
+    //Movie mapRowToMovie(SqlRowSet rs, Integer[] genres, String[] actors);
+    Movie mapRowToMovie(SqlRowSet rs);
 
-    boolean saveMovie(Movie movie);
+    boolean saveMovie(Movie movie) throws SQLException;
+
+    boolean checkIfInFavorites(int userId, int movieId);
+
+    boolean addMovieToFavorites(int movieId, int userId);
 }
