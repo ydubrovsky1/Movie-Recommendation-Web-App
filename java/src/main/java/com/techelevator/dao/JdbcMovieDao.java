@@ -52,37 +52,49 @@ public class JdbcMovieDao implements MovieDao {
 //    this.jdbcTemplate = jdbcTemplate;
 //    }
 
-
     public Movie findMovieById(int movieId) throws SQLException {
-
-        Movie movie = new Movie();
-
         String sql = "SELECT movie_id, title, " +
-                "overview, runtime, director, actors, release_date, rating, " +
-                "certification, genres FROM movies " +
+             "overview, release_date, rating " +
+                "FROM movies " +
                 "WHERE movie_id = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, movieId);
-
-        PreparedStatement pstmt = con.prepareStatement("SELECT movie_id, title, " +
-                "overview, runtime, director, actors, release_date, rating, " +
-                "certification, genres FROM movies " +
-                "WHERE movie_id = ?;");
-
-        pstmt.setInt(1, movieId);
-
-        ResultSet rs2 = pstmt.executeQuery();
-        if (rs2.next()) {
-            Array g = rs2.getArray("genres");
-            Integer[] actualGenres = (Integer[]) g.getArray();
-            Array a = rs2.getArray("actors");
-            String[] actualActors = (String[]) a.getArray();
-            if (results.next()) {
-                movie = mapRowToMovie(results, actualGenres, actualActors);
-            }
+       SqlRowSet results = jdbcTemplate.queryForRowSet(sql, movieId);
+        if (results.next()) {
+            return mapRowToMovie(results);
         }
-
-        return movie;
+        return null;
     }
+
+
+//    public Movie findMovieById(int movieId) throws SQLException {
+//
+//        Movie movie = new Movie();
+//
+//        String sql = "SELECT movie_id, title, " +
+//                "overview, runtime, director, actors, release_date, rating, " +
+//                "certification, genres FROM movies " +
+//                "WHERE movie_id = ?;";
+//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, movieId);
+//
+//        PreparedStatement pstmt = con.prepareStatement("SELECT movie_id, title, " +
+//                "overview, runtime, director, actors, release_date, rating, " +
+//                "certification, genres FROM movies " +
+//                "WHERE movie_id = ?;");
+//
+//        pstmt.setInt(1, movieId);
+//
+//        ResultSet rs2 = pstmt.executeQuery();
+//        if (rs2.next()) {
+//            Array g = rs2.getArray("genres");
+//            Integer[] actualGenres = (Integer[]) g.getArray();
+//            Array a = rs2.getArray("actors");
+//            String[] actualActors = (String[]) a.getArray();
+//            if (results.next()) {
+//                movie = mapRowToMovie(results, actualGenres, actualActors);
+//            }
+//        }
+//
+//        return movie;
+//    }
 
     public boolean saveMovie(Movie movie) throws SQLException {
         String sql = "INSERT INTO movies (movie_id, title, overview, runtime, " +
@@ -95,7 +107,7 @@ public class JdbcMovieDao implements MovieDao {
         PreparedStatement pstmt = con.prepareStatement("INSERT INTO movies (genres) " +
                 "VALUES (?) WHERE movie_id = ?");
 
-        int[] array = new int[movie.getGenre().size()];
+        int[] array = new int[movie.getGenres().size()];
 
         List<Genre> genreToArray = movie.getGenre();
         for(int i =0; i < genreToArray.size(); i++) {
@@ -125,30 +137,40 @@ public class JdbcMovieDao implements MovieDao {
 
 
         //SELECT * from movies where 20 = ANY(genres);
-    public Movie mapRowToMovie(SqlRowSet rs, Integer[] genres, String[] actors) {
+//    public Movie mapRowToMovie(SqlRowSet rs, Integer[] genres, String[] actors) {
+//        Movie movie = new Movie();
+//        movie.setMovieId(rs.getInt("movie_id"));
+//        movie.setTitle(rs.getString("title"));
+//        movie.setOverview(rs.getString("overview"));
+//        movie.setRuntime(rs.getInt("runtime"));
+//        if (rs.getString("director") != null) {
+//            movie.setDirector(rs.getString("director"));
+//        }
+//        List<Genre> actualGenres = new ArrayList<>();
+//        if (genres != null) {
+//            for (int i = 0; i < genres.length; i++) {
+//
+//                actualGenres.add(new Genre(genres[i]));
+//            }
+//            movie.setGenre(actualGenres);
+//        }
+//        if (actors != null) {
+//            movie.setActors(List.of(actors));
+//        }
+//        movie.setReleaseDate(rs.getString("release_date"));
+//        movie.setRating(rs.getDouble("rating"));
+//        movie.setCertification(rs.getString("certification"));
+//
+//        return movie;
+//    }
+
+    public Movie mapRowToMovie(SqlRowSet rs){
         Movie movie = new Movie();
         movie.setMovieId(rs.getInt("movie_id"));
         movie.setTitle(rs.getString("title"));
         movie.setOverview(rs.getString("overview"));
-        movie.setRuntime(rs.getInt("runtime"));
-        if (rs.getString("director") != null) {
-            movie.setDirector(rs.getString("director"));
-        }
-        List<Genre> actualGenres = new ArrayList<>();
-        if (genres != null) {
-            for (int i = 0; i < genres.length; i++) {
-
-                actualGenres.add(new Genre(genres[i]));
-            }
-            movie.setGenre(actualGenres);
-        }
-        if (actors != null) {
-            movie.setActors(List.of(actors));
-        }
         movie.setReleaseDate(rs.getString("release_date"));
-        movie.setRating(rs.getDouble("rating"));
-        movie.setCertification(rs.getString("certification"));
-
-        return movie;
+       movie.setRating(rs.getDouble("rating"));
+       return movie;
     }
 }

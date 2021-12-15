@@ -54,11 +54,18 @@ public class MovieController {
     }
 
     @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
-    public Movie addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
+    public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
+        if(checkIfInFavorites(userMovie.getUserId(), userMovie.getMovieId())){
+            return false;
+        }
         Movie movie = movieService.getMovie(userMovie.getMovieId());
-        if ((movieDao.findMovieById(userMovie.getMovieId()).getMovieId()) != userMovie.getMovieId()) {
+        if(movie == null){
             movieDao.saveMovie(movie);
         }
+//        Movie movie = movieService.getMovie(userMovie.getMovieId());
+//        if ((movieDao.findMovieById(userMovie.getMovieId()).getMovieId()) != userMovie.getMovieId()) {
+//            movieDao.saveMovie(movie);
+//        }
         return movieDao.findMovieById(userMovie.getMovieId());
     }
 

@@ -33,10 +33,10 @@ CREATE TABLE movies (
         runtime int NOT NULL,
         director varchar(100),
         actors varchar(100) array[5],
-        release_date date NOT NULL,
+        release_date varchar(20) NOT NULL,
         rating numeric,
         certification varchar(10),
-        genres int array[20] NOT NULL,--fk
+        genres int array[20],
         constraint pk_movies primary key(movie_id)
 );
 
