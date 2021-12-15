@@ -50,6 +50,7 @@ export default {
   text-align: center;
   text-shadow: 10px 10px 10px grey;
   font-size: 250%;
+  text-indent: 10%;
 }
 .nav {
   font-family: fantasy;

@@ -78,7 +78,7 @@
                   <td>Genre: {{ currentMovie.genre_ids }}</td>
                 </tr>
                 <tr>
-                  <td>Overview: {{ currentMovie.overview }}</td>
+                  <td id="movie-desc">Overview: {{ currentMovie.overview }}</td>
                 </tr>
                 <tr>
                   <td>Release Date: {{ currentMovie.release_date }}</td>
@@ -407,8 +407,8 @@ h2 {
 
 #adore-button {
   background: url(../img/adore-ticket.jpg) center / cover no-repeat;
-  width: 50%;
-  height: 25%;
+  width: 100%;
+  height: 50%;
 
   border-radius: 5px;
   font-family: fantasy;
@@ -473,7 +473,7 @@ h2 {
 
 #overview-box {
   font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1.1em;
+  font-size: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -501,5 +501,9 @@ h2 {
 
 #movie-table {
   text-align: center;
+}
+#movie-desc {
+  width: 800px;
+  height: 150px;
 }
 </style>
