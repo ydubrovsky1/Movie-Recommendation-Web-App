@@ -184,12 +184,9 @@ export default {
   },
   methods: {
     deleteGenre(genreId) {
-      let userAndGenresToDelete = {
-        userId: this.$store.state.user.id,
-        genreId: genreId,
-      };
+      let userId = this.$store.state.user.id;
       movieService
-        .deleteGenre(userAndGenresToDelete) //this calls movie service in the back-end
+        .deleteGenre(userId, genreId) //this calls movie service in the back-end
         //response
         .then((response) => {
           if (response.data == true) {
