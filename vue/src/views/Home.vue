@@ -149,6 +149,7 @@ Vue.use(VueSimpleAlert);
 
 Vue.use(VueSimpleAlert);
 import Header from "./Header.vue";
+
 export default {
   name: "home",
   components: {
@@ -227,9 +228,16 @@ export default {
         movieId: this.movies[this.currentMovieIndex].id,
       };
       movieService.addFavorite(userPlusCurrentMovieId).then((response) => {
-        this.$store.commit("SET_FAVORITES", response.data);
+        if (response.data == true) {
+          this.$store.commit(
+            "SET_FAVORITES",
+            this.movies[this.currentMovieIndex]
+          );
+          this.$alert("Favorites Updated!");
+        } else {
+          this.$alert("Already In Favorites!");
+        }
       });
-      this.$alert("Favorites Updated!");
     },
 
     updateCurrentMovie() {
@@ -513,7 +521,7 @@ h2 {
   color: orange;
   font-family: fantasy;
   display: flex;
-  font-weight: ;
+  font-weight: bold;
   text-decoration: underline;
   align-content: center;
   align-items: center;
