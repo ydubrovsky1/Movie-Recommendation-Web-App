@@ -55,10 +55,13 @@ public class MovieController {
 
     @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
     public Movie addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
-//        Movie movie = movieService.getMovie(user.getFavoriteMovieId());
-//        if (movieDao.findMovieById(user.getFavoriteMovieId()).getMovieId() != user.getFavoriteMovieId()) {
-//            movieDao.saveMovie(movie);
-//        }
+        Movie movie = movieService.getMovie(userMovie.getMovieId());
+        if ((movieDao.findMovieById(userMovie.getMovieId()).getMovieId()) != userMovie.getMovieId()) {
+            movieDao.saveMovie(movie);
+        }
         return movieDao.findMovieById(userMovie.getMovieId());
     }
+
+
+
 }

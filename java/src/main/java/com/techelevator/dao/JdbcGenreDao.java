@@ -59,7 +59,7 @@ public class JdbcGenreDao implements GenreDao {
     public Genre getGenreByUser(int userId, int genreId) {
         Genre genre = new Genre();
 
-        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN user_to_genres ug WHERE userId = ? AND g.genre_id = ?;";
+        String sql = "SELECT g.genre_name, g.genre_id FROM genres g JOIN user_genres ug WHERE userId = ? AND g.genre_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
