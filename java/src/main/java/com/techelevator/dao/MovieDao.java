@@ -4,6 +4,7 @@ import com.techelevator.model.Movie;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface MovieDao {
 
@@ -16,4 +17,5 @@ public interface MovieDao {
     boolean checkIfInFavorites(int userId, int movieId);
 
     boolean addMovieToFavorites(int movieId, int userId);
+    List<Movie> getFavoriteMoviesByUser(int userId);
 }

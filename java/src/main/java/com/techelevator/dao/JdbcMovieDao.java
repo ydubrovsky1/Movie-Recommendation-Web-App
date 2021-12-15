@@ -64,6 +64,20 @@ public class JdbcMovieDao implements MovieDao {
         return null;
     }
 
+    public List<Movie> getFavoriteMoviesByUser(int userId){
+        List<Movie> movies = new ArrayList<>();
+        String sql="SELECT m.movie_id, m.title, " +
+                "m.overview, m.release_date, m.rating " +
+                "FROM movies m JOIN favorites f ON m.movie_id = f.movie_id "+
+                "JOIN users u ON f.user_id = u.user_id "+
+                "WHERE u.user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        while (results.next()) {
+            movies.add(mapRowToMovie(results));
+        }
+        return movies;
+    }
+
     public boolean checkIfInFavorites(int userId, int movieId){
         String sql = "SELECT * FROM favorites WHERE user_id = ? AND movie_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, movieId);
