@@ -53,6 +53,12 @@ public class MovieController {
         return movieDao.findMovieById(id);
     }
 
+    @RequestMapping(path = "/getFavorites", method = RequestMethod.POST)
+    public List<Movie> getFavorites(@RequestBody UserMovie userMovie){
+        return movieDao.getFavoriteMoviesByUser(userMovie.getUserId());
+
+    }
+
    @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
     public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
         //if already in faves return false
