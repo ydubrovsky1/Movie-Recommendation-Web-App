@@ -75,6 +75,30 @@ public class JdbcMovieDao implements MovieDao {
         }
     }
 
+    public boolean addMovieToFavorites(int movieId, int userId){
+        String sql = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?);";
+        return jdbcTemplate.update(sql, userId, movieId) == 1;
+    }
+
+    public boolean checkIfInAbhorred(int userId, int movieId){
+        String sql = "SELECT * FROM abhorred WHERE user_id = ? AND movie_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, movieId);
+        if(results.next()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean addMovieToAbhorred(int movieId, int userId){
+        String sql = "INSERT INTO abhorred (user_id, movie_id) VALUES (?, ?);";
+        return jdbcTemplate.update(sql, userId, movieId) == 1;
+    }
+
+
+
+
 
 //    public Movie findMovieById(int movieId) throws SQLException {
 //
@@ -136,10 +160,9 @@ public class JdbcMovieDao implements MovieDao {
         return true;
     }
 
-    public boolean addMovieToFavorites(int movieId, int userId){
-        String sql = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?);";
-        return jdbcTemplate.update(sql, userId, movieId) == 1;
-    }
+
+
+
 
     public boolean addMovieToWatchList(Movie movie, int userId){
         String sql = "INSERT INTO watch_list (user_id, movie_id) VALUES (?, ?);";
