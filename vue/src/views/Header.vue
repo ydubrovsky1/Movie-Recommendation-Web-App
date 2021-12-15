@@ -9,8 +9,16 @@
     <sidebar>
       <ul class="sidebar-panel-nav">
         <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
-        <li><a href="#about">User Profile</a></li>
-        <li><a href="#contact">Watch List</a></li>
+        <li>
+          <router-link v-bind:to="{ name: 'userProfile' }"
+            >User Profile</router-link
+          >
+        </li>
+        <li>
+          <router-link v-bind:to="{ name: 'watchList' }"
+            >Watch List</router-link
+          >
+        </li>
         <li>
           <router-link v-bind:to="{ name: 'logout' }">Log Out</router-link>
         </li>

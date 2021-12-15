@@ -1,14 +1,20 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public class Movie {
 
     @NotEmpty
-    private long movieId;
+    @JsonProperty("id")
+    private int movieId;
     @NotEmpty
     private List<Genre> genre;
+    @NotEmpty
+    @JsonProperty("genre_ids")
+    private List<Integer> genres;
     @NotEmpty
     private String title;
     @NotEmpty
@@ -20,9 +26,19 @@ public class Movie {
     @NotEmpty
     private List<String> actors;
     @NotEmpty
+    @JsonProperty("release_date")
     private String releaseDate;
+    @JsonProperty("vote_average")
     private double rating;
     private String certification;
+
+    public List<Integer> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Integer> genres) {
+        this.genres = genres;
+    }
 
     public List<String> getActors() {
         return actors;
@@ -36,7 +52,7 @@ public class Movie {
         return movieId;
     }
 
-    public void setMovieId(long movieId) {
+    public void setMovieId(int movieId) {
         this.movieId = movieId;
     }
 

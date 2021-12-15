@@ -43,24 +43,31 @@ public class MovieController {
     }
 
 
-//    @RequestMapping(path = "/genre", method = RequestMethod.DELETE)
-//    public boolean deleteGenre(@RequestBody @Valid UserGenre userGenre) {
-//        return genreDao.deleteGenreFromUser(userGenre.getUserId(),userGenre.getGenreId());
-//    }
+   @RequestMapping(path = "/genre/{userId}/{genreId}", method = RequestMethod.DELETE)
+   public boolean deleteGenre(@PathVariable int userId, @PathVariable int genreId ) {
+        return genreDao.deleteGenreFromUser(userId,genreId);
+    }
 
     @RequestMapping(path = "/movie/{id}", method = RequestMethod.GET)
     public Movie getMovieById(@PathVariable int id) throws SQLException {
         return movieDao.findMovieById(id);
     }
 
-    @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
-    public Movie addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
-//        Movie movie = movieService.getMovie(user.getFavoriteMovieId());
-//        if (movieDao.findMovieById(user.getFavoriteMovieId()).getMovieId() != user.getFavoriteMovieId()) {
+//    @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
+//    public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
+//        if(checkIfInFavorites(userMovie.getUserId(), userMovie.getMovieId())){
+//            return false;
+//        }
+//        Movie movie = movieService.getMovie(userMovie.getMovieId());
+//        if(movie == null){
 //            movieDao.saveMovie(movie);
 //        }
-        return movieDao.findMovieById(userMovie.getMovieId());
-    }
+////        Movie movie = movieService.getMovie(userMovie.getMovieId());
+////        if ((movieDao.findMovieById(userMovie.getMovieId()).getMovieId()) != userMovie.getMovieId()) {
+////            movieDao.saveMovie(movie);
+////        }
+//        return movieDao.findMovieById(userMovie.getMovieId());
+//    }
 
     @RequestMapping(path = "/getGenres", method = RequestMethod.POST)
     public List<Genre> getGenres(@RequestBody UserGenre userGenre) {
