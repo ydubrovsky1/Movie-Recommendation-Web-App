@@ -6,7 +6,7 @@
     </header>
 
     <body>
-      <p>where the favorite movies show up as a table</p>
+      <p>Here is the list of movies you would like to watch</p>
       <main></main>
     </body>
   </div>
@@ -28,5 +28,10 @@ h1 {
   text-align: center;
   text-shadow: 10px 10px 10px orange;
   font-size: 300%;
+}
+
+p {
+  font-family: fantasy;
+  text-align: center;
 }
 </style>
