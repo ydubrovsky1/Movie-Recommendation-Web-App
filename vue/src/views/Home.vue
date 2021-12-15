@@ -234,6 +234,8 @@ export default {
       */
     },
     addToFavorites() {
+      this.$store.commit("SET_FAVORITES",  this.movies[this.currentMovieIndex]);
+
       let userPlusCurrentMovieId = {
         userId: this.$store.state.user.id,
         movieId: this.movies[this.currentMovieIndex].id,
