@@ -27,7 +27,7 @@
           </button>
         </form>
         <h2 id="genre-choice">Add Genres:</h2>
-        <form id="genre-dropdown" v-on:submit.prevent="addGenre">
+        <form id="genre-dropdown" v-on:submit="addGenre">
           <select id="genres" v-model="genres" multiple>
             <option value="28" v-if="!containsGenre(28)">Action</option>
             <option value="12" v-if="!containsGenre(12)">Adventure</option>
