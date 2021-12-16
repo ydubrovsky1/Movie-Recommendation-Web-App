@@ -59,6 +59,12 @@ public class MovieController {
 
     }
 
+    @RequestMapping(path = "/getAbhorred", method = RequestMethod.POST)
+    public List<Movie> getAbhorred(@RequestBody UserMovie userMovie){
+        return movieDao.getAbhorredMoviesByUser(userMovie.getUserId());
+
+    }
+
    @RequestMapping(path = "/addFavorite", method = RequestMethod.POST) //addfavorite
     public boolean addMovie(@RequestBody @Valid UserMovie userMovie) throws SQLException {
         //if already in faves return false
@@ -102,6 +108,8 @@ public class MovieController {
         return movieDao.addMovieToAbhorred(userMovie.getMovieId(), userMovie.getUserId());
 
     }
+
+
 
 
 

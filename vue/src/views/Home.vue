@@ -68,7 +68,7 @@
         </div>
         <section id="movie-table" v-if="this.movies.length > 0">
           <div id="right-panel-middle-row" v-if="this.movies.length > 0">
-            <button id="abhore-button" v-on:click="addToAbhore();updateCurrentMovie();">Abhore</button>
+            <button id="abhore-button" v-on:click="addToAbhore()">Abhore</button>
             <tbody v-if="this.movies.length > 0">
               <tr>
                 <div id="poster-flex-box">
@@ -110,10 +110,7 @@
             <button
               id="adore-button"
               v-on:click="
-                addToFavorites();
-                updateCurrentMovie();
-              "
-            >
+                addToFavorites()">
               Adore
             </button>
           </div>
@@ -186,7 +183,9 @@ export default {
       }
     });
     //get the updated abhorred movies into store
-
+    movieService.getAbhorred(userPlusCurrentMovieId).then((response) =>{
+      this.$store.commit("SET_ABHORRED", response.data);
+    });
 
   },
   methods: {
@@ -250,13 +249,14 @@ export default {
         if (response.data == true) {
           this.$store.commit(
             "ADD_FAVORITES",
-            this.movies[this.currentMovieIndex]
+            this.movies[this.currentMovieIndex - 1]
           );
           this.$alert("Favorites Updated!");
         } else {
           this.$alert("Already In Favorites!");
         }
       });
+      this.updateCurrentMovie();
     },
     addToAbhore(){
       let userPlusCurrentMovieId = {
@@ -265,15 +265,13 @@ export default {
       };
       movieService.addAbhore(userPlusCurrentMovieId).then((response) => {
         if (response.data == true) {
-          this.$store.commit(
-            "SET_ABHORRED",
-            this.movies[this.currentMovieIndex]
-          );
+          this.$store.commit("ADD_ABHORRED", this.movies[this.currentMovieIndex - 1]);
           this.$alert("Abhorred Updated!");
         } else {
           this.$alert("Already In Abhorred!");
         }
       });
+      this.updateCurrentMovie();
 
     },
     updateCurrentMovie() {

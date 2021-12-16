@@ -25,6 +25,9 @@ export default {
     },
     addAbhore(userPlusCurrentMovieId){
         return axios.post('/addAbhorred', userPlusCurrentMovieId);
+    },
+    getAbhorred(userPlusCurrentMovieId){
+        return axios.post('/getAbhorred', userPlusCurrentMovieId);
     }
 
 

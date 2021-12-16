@@ -63,11 +63,14 @@ export default new Vuex.Store({
     SET_WATCHLIST(state, data){
       state.watchlist.push(data);
     },
-    SET_ABHORRED(state, data){
+    ADD_ABHORRED(state, data){
       state.abhorred.push(data);
     },
     ADD_FAVORITES(state, data){
       state.favorites.push(data);
+    },
+    SET_ABHORRED(state, data){
+      state.abhorred = data;
     }
 
   }
