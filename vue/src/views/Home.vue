@@ -23,7 +23,7 @@
           </tr>
         </tbody>
         <br />
-        <form v-on:submit.prevent="loadMovieRecs()">
+        <form v-on:submit="loadMovieRecs()">
           <button id="rec-movie" type="submit">
             See Movie Recs Based on Favorite Movie
           </button>
@@ -318,7 +318,7 @@ export default {
         let myGenreUrl = "";
         for (let i = 0; i < this.$store.state.genres.length; i++) {
           //do %2C instead of + to get movies that include every genre, instead of movies that include at least one of the genres
-          myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "+";
+          myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "||";
         }
         apiMovieService.getMoviesByGenre(myGenreUrl).then((response) => {
           let moviesNotAdoredOrAbhorred = [];
