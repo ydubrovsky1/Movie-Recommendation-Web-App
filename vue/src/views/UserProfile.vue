@@ -15,16 +15,22 @@
           >
             <td>
               <img
+                id="MImage"
                 :src="
                   `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` +
                   favorite.poster_path
                 "
               />
             </td>
-            <td>Movie title: {{ favorite.original_title }}</td>
-            <td>Genre: {{ favorite.genre_ids }}</td>
-            <td>Movie Overview: {{ favorite.overview }}</td>
-            <td>Release Date: {{ favorite.release_date }}</td>
+            <br />
+            <td id="MTitle">Movie title: {{ favorite.original_title }}</td>
+            <br />
+            <!-- <td id="MGenre">Genre: {{ favorite.genre_ids }}</td>
+            <br /> -->
+            <td id="MOverview">Movie Overview: {{ favorite.overview }}</td>
+            <br />
+            <td id="RDate">Release Date: {{ favorite.release_date }}</td>
+            <br />
           </tr>
         </tbody>
       </main>
@@ -62,5 +68,86 @@ p {
 
 #favorite-list {
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#MTitle {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#RDate {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#MGenre {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#MOverview {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 600px;
+  height: 100px;
+}
+#MImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border: 5px solid black;
+  border-radius: 25px;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+@media (max-width: 450px) {
+  body header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #favorite-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  #MImage {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    border: 5px solid black;
+    border-radius: 25px;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+
+  #MOverview {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: 50%;
+  }
 }
 </style>
