@@ -16,11 +16,13 @@
             </td>
 
             <td>
-              <button v-on:click="deleteGenre(genre.id)">X</button>
+              <button id="delete-genre" v-on:click="deleteGenre(genre.id)">
+                X
+              </button>
             </td>
           </tr>
         </tbody>
-
+        <br />
         <form v-on:submit.prevent="loadMovieRecs()">
           <button id="rec-movie" type="submit">
             See Movie Recs Based on Favorite Movie
@@ -325,7 +327,7 @@ h2 {
   color: black;
   text-align: left;
   text-shadow: 10px 10px 10px orange;
-  font-size: 150%;
+  font-size: 250%;
 }
 #genre-choice {
   font-family: fantasy;
@@ -367,7 +369,6 @@ h2 {
   margin: 0px 0px;
   text-indent: 10%;
   border: 2px solid green;
-  border-radius: 4px;
 }
 
 .main {
@@ -516,19 +517,18 @@ h2 {
 
 #selected-genres {
   width: 125%;
-  font-size: 120%;
+  font-size: 150%;
   border-radius: 10px;
-  color: orange;
+  color: black;
   font-family: fantasy;
   display: flex;
-  font-weight: bold;
   text-decoration: underline;
   align-content: center;
   align-items: center;
   justify-content: space-between;
   margin: 0px 0px;
 
-  border: 2px solid green;
+  border: 5px solid green;
   border-radius: 4px;
 }
 
@@ -546,6 +546,13 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+#delete-genre {
+  font-size: 100%;
+  font-family: "Times New Roman", Times, serif;
+  border: 3px solid black;
+  background: orange;
+  color: red;
+}
 
 @media (max-width: 450px) {
   body header {
@@ -561,13 +568,6 @@ h2 {
   #right-panel {
     flex-wrap: wrap;
     justify-content: center;
-  }
-
-  #delete-genre {
-    font-size: 500%;
-    border: black;
-    background: pink;
-    color: red;
   }
 }
 </style>
