@@ -23,13 +23,13 @@
           </tr>
         </tbody>
         <br />
-        <form v-on:submit.prevent="loadMovieRecs()">
+        <form v-on:submit="loadMovieRecs()">
           <button id="rec-movie" type="submit">
             See Movie Recs Based on Favorite Movie
           </button>
         </form>
         <h2 id="genre-choice">Add Genres:</h2>
-        <form id="genre-dropdown" v-on:submit.prevent="addGenre">
+        <form id="genre-dropdown" v-on:submit="addGenre">
           <select id="genres" v-model="genres" multiple>
             <option value="28" v-if="!containsGenre(28)">Action</option>
             <option value="12" v-if="!containsGenre(12)">Adventure</option>
@@ -267,7 +267,7 @@ export default {
         let myGenreUrl = "";
         for (let i = 0; i < this.$store.state.genres.length; i++) {
           //do %2C instead of + to get movies that include every genre, instead of movies that include at least one of the genres
-          myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "+";
+          myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "||";
         }
         apiMovieService.getMoviesByGenre(myGenreUrl).then((response) => {
           this.movies = response.data.results;
