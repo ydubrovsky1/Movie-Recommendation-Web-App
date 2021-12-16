@@ -27,7 +27,7 @@
           </button>
         </form>
         <h2 id="genre-choice">Add Genres:</h2>
-        <form id="genre-dropdown" v-on:submit.prevent="addGenre">
+        <form id="genre-dropdown" v-on:submit="addGenre">
           <select id="genres" v-model="genres" multiple>
             <option value="28" v-if="!containsGenre(28)">Action</option>
             <option value="12" v-if="!containsGenre(12)">Adventure</option>
@@ -68,7 +68,7 @@
         </div>
         <section id="movie-table" v-if="this.movies.length > 0">
           <div id="right-panel-middle-row" v-if="this.movies.length > 0">
-            <button id="abhore-button">Abhore</button>
+            <button id="abhore-button" v-on:click="addToAbhore()">Abhore</button>
             <tbody v-if="this.movies.length > 0">
               <tr>
                 <div id="poster-flex-box">
@@ -84,7 +84,7 @@
               </tr>
               <br />
               <div id="right-panel-row-button">
-                <button id="previous-button">Previous</button>
+                <button id="previous-button" v-on:click="previousMovie()">Previous</button>
                 <button id="watchlist-button" v-on:click="addToWatchlist()">
                   Add To Watchlist
                 </button>
@@ -110,10 +110,7 @@
             <button
               id="adore-button"
               v-on:click="
-                addToFavorites();
-                updateCurrentMovie();
-              "
-            >
+                addToFavorites()">
               Adore
             </button>
           </div>
@@ -164,6 +161,7 @@ export default {
     };
   },
   beforeMount() {
+    //get the updated genres into store
     let userAndGenresToAdd = {
       userId: this.$store.state.user.id,
       genreIds: [],
@@ -171,8 +169,29 @@ export default {
     movieService.getGenres(userAndGenresToAdd).then((response) => {
       this.$store.commit("SET_GENRES", response.data);
     });
+    //get the updated movies into faves in store
+    let userPlusCurrentMovieId = {
+        userId: this.$store.state.user.id,
+        movieId: 0,
+    };
+    movieService.getFavorites(userPlusCurrentMovieId).then((response) =>{
+      this.$store.commit("SET_FAVORITES", []);
+      for(let i=0; i < response.data.length; i++){
+        apiMovieService.getMovieById((response.data[i]).id).then((response) =>{
+          this.$store.commit("ADD_FAVORITES", response.data); 
+        });
+      }
+    });
+    //get the updated abhorred movies into store
+    movieService.getAbhorred(userPlusCurrentMovieId).then((response) =>{
+      this.$store.commit("SET_ABHORRED", response.data);
+    });
+
   },
   methods: {
+    clearMovies(){
+      this.movies = [];
+    },
     deleteGenre(genreId) {
       let userId = this.$store.state.user.id;
       movieService
@@ -221,7 +240,6 @@ export default {
       */
     },
     addToFavorites() {
-      this.$store.commit("SET_FAVORITES", this.movies[this.currentMovieIndex]);
 
       let userPlusCurrentMovieId = {
         userId: this.$store.state.user.id,
@@ -230,21 +248,44 @@ export default {
       movieService.addFavorite(userPlusCurrentMovieId).then((response) => {
         if (response.data == true) {
           this.$store.commit(
-            "SET_FAVORITES",
-            this.movies[this.currentMovieIndex]
+            "ADD_FAVORITES",
+            this.movies[this.currentMovieIndex - 1]
           );
           this.$alert("Favorites Updated!");
         } else {
           this.$alert("Already In Favorites!");
         }
       });
+      this.updateCurrentMovie();
     },
+    addToAbhore(){
+      let userPlusCurrentMovieId = {
+        userId: this.$store.state.user.id,
+        movieId: this.movies[this.currentMovieIndex].id,
+      };
+      movieService.addAbhore(userPlusCurrentMovieId).then((response) => {
+        if (response.data == true) {
+          this.$store.commit("ADD_ABHORRED", this.movies[this.currentMovieIndex - 1]);
+          this.$alert("Abhorred Updated!");
+        } else {
+          this.$alert("Already In Abhorred!");
+        }
+      });
+      this.updateCurrentMovie();
 
+    },
     updateCurrentMovie() {
       if (this.currentMovieIndex < this.movies.length - 1) {
         this.currentMovieIndex++;
       } else {
         this.currentMovieIndex = 0;
+      }
+    },
+    previousMovie(){
+      if (this.currentMovieIndex < 1) {
+        this.currentMovieIndex = this.movies.length - 1;
+      } else {
+        this.currentMovieIndex--;
       }
     },
     addGenre() {
@@ -261,6 +302,16 @@ export default {
       this.$alert("Genres Updated!");
     },
     loadMoviesByGenre() {
+      let abhorredMovies = this.$store.state.abhorred;
+      let abhorredIds = [];
+      for(let i=0; i < abhorredMovies.length; i++){
+        abhorredIds.push(abhorredMovies[i].id);
+      }
+      let adoredMovies = this.$store.state.favorites;
+      let adoredIds = [];
+      for(let i=0; i < adoredMovies.length; i++){
+        adoredIds.push(adoredMovies[i].id);
+      }
       if (this.$store.state.genres.length > 0) {
         let myGenreUrl = "";
         for (let i = 0; i < this.$store.state.genres.length; i++) {
@@ -268,12 +319,23 @@ export default {
           myGenreUrl = myGenreUrl + this.$store.state.genres[i].id + "+";
         }
         apiMovieService.getMoviesByGenre(myGenreUrl).then((response) => {
-          this.movies = response.data.results;
-          this.$alert("Genres Updated!");
+          let moviesNotAdoredOrAbhorred = [];
+          for(let i=0; i < response.data.results.length; i++){
+            if(!abhorredIds.includes((response.data.results[i]).id) && !adoredIds.includes((response.data.results[i]).id)){
+              moviesNotAdoredOrAbhorred.push(response.data.results[i]);
+            }
+          }
+          this.movies = moviesNotAdoredOrAbhorred;
         });
       } else {
         apiMovieService.getMoviesByGenre("28").then((response) => {
-          this.movies = response.data.results;
+          let moviesNotAdoredOrAbhorred = [];
+          for(let i=0; i < response.data.length; i++){
+            if(!abhorredIds.contains((response.data[i]).id) && !adoredIds.contains((response.data[i]).id)){
+              moviesNotAdoredOrAbhorred.push(response.data[i]);
+            }
+          }
+          this.movies = moviesNotAdoredOrAbhorred;
         });
       }
     },

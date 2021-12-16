@@ -19,7 +19,17 @@ export default {
     },
     deleteGenre(userId, genreId){
         return axios.delete(`/genre/${userId}/${genreId}`)
+    },
+    getFavorites(userPlusCurrentMovieId){
+        return axios.post('/getFavorites', userPlusCurrentMovieId);
+    },
+    addAbhore(userPlusCurrentMovieId){
+        return axios.post('/addAbhorred', userPlusCurrentMovieId);
+    },
+    getAbhorred(userPlusCurrentMovieId){
+        return axios.post('/getAbhorred', userPlusCurrentMovieId);
     }
+
 
 
   
