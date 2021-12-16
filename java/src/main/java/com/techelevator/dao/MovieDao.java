@@ -22,4 +22,6 @@ public interface MovieDao {
     public boolean addMovieToAbhorred(int movieId, int userId);
 
     public boolean checkIfInAbhorred(int userId, int movieId);
+
+    List<Movie> getAbhorredMoviesByUser(int userId);
 }

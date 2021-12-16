@@ -40,7 +40,11 @@ getMoviesByGenre(genreId){
 //input movie Id, get a list of movies recommended based on that movie
 getMovieRecs(movieId){
     return movieBaseUrl.get(`movie/${movieId}/recommendations?api_key=fbc258611c329af8b2fa24446de942f6&language=en-US&page=1`)
-}
+},
 
+//get movie deets based on movie Id
+getMovieById(movieId){
+    return movieBaseUrl.get(`movie/${movieId}?api_key=fbc258611c329af8b2fa24446de942f6&language=en-US`);
+}
 
 }
