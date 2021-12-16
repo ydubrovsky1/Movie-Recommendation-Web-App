@@ -16,7 +16,7 @@
             </td>
 
             <td>
-              <button id="delete-genre" v-on:click="deleteGenre(genre.id)">
+              <button id="delete-genre" v-on:click="deleteGenre(genre.id); refreshPage();">
                 X
               </button>
             </td>
@@ -346,6 +346,9 @@ export default {
         this.movies = response.data.results;
       });
     },
+    refreshPage(){
+    window.location.reload();
+}
   },
   computed: {
     currentMovie() {
