@@ -13,7 +13,7 @@
             v-for="favorite in $store.state.favorites"
             v-bind:key="favorite.id"
           >
-            <td>
+            <td id="MImage">
               <img
                 :src="
                   `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/` +
@@ -21,10 +21,10 @@
                 "
               />
             </td>
-            <td>Movie title: {{ favorite.original_title }}</td>
-            <td>Genre: {{ favorite.genre_ids }}</td>
-            <td>Movie Overview: {{ favorite.overview }}</td>
-            <td>Release Date: {{ favorite.release_date }}</td>
+            <td id="MTitle">Movie title: {{ favorite.original_title }}</td>
+            <td id="MGenre">Genre: {{ favorite.genre_ids }}</td>
+            <td id="MOverview">Movie Overview: {{ favorite.overview }}</td>
+            <td id="RDate">Release Date: {{ favorite.release_date }}</td>
           </tr>
         </tbody>
       </main>
@@ -62,5 +62,36 @@ p {
 
 #favorite-list {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#MTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#RDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#MGenre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#MOverview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#MImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
